@@ -1,7 +1,6 @@
 from mesa import Model, Agent
 
-
-class Player(Agent):
+class basicAgent(Agent):
     """
     Most basic agent just to be able to run the basic game
     Counts down the difference between the cards
