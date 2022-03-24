@@ -9,7 +9,7 @@ class Round(Model):
     """
     def __init__(self, game):
         self.card_list = list(range(1, 100))
-        self.cards_left = game.num_players * game.current_round
+        self.cards_in_game = game.num_players * game.current_round
 
     def play(self):
         random.shuffle(self.card_list)
