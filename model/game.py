@@ -10,10 +10,10 @@ class Game(Model):
     """
     def __init__(self):
         self.init_players()
-        self.schedule = BaseScheduler(self)
-        self.num_lives = 0
-        self.num_rounds = 0
-        self.current_round = 1
+        self.num_lives = self.num_players
+        self.init_rounds()
+        self.round_num = 1
+        self.present = round.Round(self)
 
     """
     Initializing the players, different possibilities

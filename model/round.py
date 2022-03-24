@@ -10,8 +10,8 @@ class Round(Model):
     def __init__(self, g):
         self.g = g
         self.card_list = list(range(1, 100))
-        self.cards_in_game = g.num_players * g.current_round
-
+        self.cards_in_game = g.num_players * g.round_num
+        self.pile = 0                                           ## card on top of the pile (last card that was played)
 
     def play(self):
         random.shuffle(self.card_list)
@@ -31,4 +31,7 @@ class Round(Model):
         player.order_cards()
 
     def process_cards(self):
-        pass
+        for player in self.g.players:
+            player.determine_difference()
+
+
