@@ -2,7 +2,7 @@ from mesa import Model, Agent
 from mesa.time import BaseScheduler
 import random
 import model.round as round
-import model.defaultPlayer as dP
+import model.player as p
 
 class Game(Model):
     """

@@ -25,3 +25,10 @@ class Round(Model):
             """
             player.cards = list(islice(card_listt, self.g.current_round))
             print(player.cards)
+        """
+        Have the player order the cards to have the lowest card in the lowest index
+        """
+        player.order_cards()
+
+    def process_cards(self):
+        pass
