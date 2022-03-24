@@ -9,12 +9,16 @@ class Game(Model):
     Model in which the game is played, coördinating the different rounds
     """
     def __init__(self):
-        self.num_players = 0
+        self.init_players()
         self.schedule = BaseScheduler(self)
         self.num_lives = 0
         self.num_rounds = 0
         self.current_round = 1
 
+    """
+    Initializing the players, different possibilities
+    For now it is a random number of players from 2-4
+    """
     def init_players(self):
         self.num_players = random.choice([2,3,4])
         ## for i in range(self.num_players):
