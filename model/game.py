@@ -2,13 +2,15 @@ from mesa import Model, Agent
 from mesa.time import BaseScheduler
 import random
 import model.round as round
-import model.agents.player as p
+import model.agents.basicAgent as bA
 
 class Game(Model):
     """
     Model in which the game is played, coördinating the different rounds
     """
     def __init__(self):
+        self.players = []
+        self.schedule = BaseScheduler(self)
         self.init_players()
         self.num_lives = self.num_players
         self.init_rounds()
@@ -21,20 +23,24 @@ class Game(Model):
     """
     def init_players(self):
         self.num_players = random.choice([2,3,4])
-        ## for i in range(self.num_players):
-            ## agent = Default_player(i, self)
-            ## self.schedule.add(agent)
+        self.players = []
+        for i in range(self.num_players):
+            agent = bA.basicAgent(i, self)
+            self.schedule.add(agent)
+            self.players.append(agent)
 
-    def init_lives(self):
-        self.num_lives = self.num_players
-
+    """
+    Initializing the number of levels that need to be played 
+    based on the number of players
+    """
     def init_rounds(self):
         round_distribution = [0, 0, 12, 10, 8]
         self.num_rounds = round_distribution[self.num_players]
 
-    def step(self):
-        """Advancing the model by one step"""
-        if (self.current_round <= self.num_rounds):
-            next_round = round.Round(self)
-            next_round.play()
-            self.current_round += 1
+    def run_model(self):
+        """Running all rounds of the game"""
+        while (self.round_num <= self.num_rounds):
+            self.present = round.Round(self)
+            self.present.run_model()
+            self.round_num += 1
+
