@@ -15,7 +15,7 @@ class basicAgent(Agent):
         self.cards.sort()
 
     def determine_difference(self):
-        if self.cards is not []:
+        if len(self.cards) != 0:
             self.diff = self.cards[0] - self.model.present.pile
         else:
             self.diff = 1000000
@@ -24,3 +24,6 @@ class basicAgent(Agent):
     def get_active(self):
         self.determine_difference()
         return self.diff
+
+    def remove_card(self):
+        del self.cards[0]

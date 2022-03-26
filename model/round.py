@@ -15,7 +15,7 @@ class Round(Model):
         self.pile = 0                                           ## card on top of the pile (last card that was played)
 
 
-    def run_model(self):
+    def run_model(self):h
         random.shuffle(self.card_list)
         card_listt = iter(self.card_list)
         for player in self.g.players:
@@ -24,16 +24,19 @@ class Round(Model):
             """
             player.cards = list(islice(card_listt, self.g.round_num))
             player.order_cards()                                ## order cards in ascending order
-            print(player.cards)
-        ##while (self.cards_in_game > 0):
-        self.process_cards()
+        while (self.cards_in_game > 0):
+            self.process_cards()
 
     def process_cards(self):
         wait_list = []
         for player in self.g.players:
+            print(player.cards)
             waiting_time = player.get_active()
             wait_list.append(waiting_time)
         lowest_time = wait_list.index(min(wait_list))
         playing_agent = self.g.players[lowest_time]
         playing_card = playing_agent.cards[0]
-        print(playing_card)
+
+        playing_agent.remove_card()
+        ##check_for_mistakes(playing_card)
+        self.cards_in_game -= 1
