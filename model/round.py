@@ -15,7 +15,7 @@ class Round(Model):
         self.pile = 0                                           ## card on top of the pile (last card that was played)
 
 
-    def run_model(self):h
+    def run_model(self):
         random.shuffle(self.card_list)
         card_listt = iter(self.card_list)
         for player in self.g.players:
@@ -38,5 +38,10 @@ class Round(Model):
         playing_card = playing_agent.cards[0]
 
         playing_agent.remove_card()
-        ##check_for_mistakes(playing_card)
         self.cards_in_game -= 1
+        if self.check_for_mistakes(playing_card):
+            "MISTAKE HAS BEEN FOUND"
+
+    def check_for_mistakes(self, x):
+        for player in self.g.players:
+            return (any(card < x for card in player.cards))
