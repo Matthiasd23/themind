@@ -18,12 +18,9 @@ class basicAgent(Agent):
         if self.cards is not []:
             self.diff = self.cards[0] - self.model.present.pile
         else:
-            self.diff = 9999
+            self.diff = 1000000
             ##self.playing = False
 
     def get_active(self):
+        self.determine_difference()
         return self.diff
-
-
-
-

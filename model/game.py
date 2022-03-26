@@ -30,7 +30,7 @@ class Game(Model):
             self.players.append(agent)
 
     """
-    Initializing the number of levels that need to be played 
+    Initializing the number of levels that need to be played
     based on the number of players
     """
     def init_rounds(self):
@@ -43,4 +43,3 @@ class Game(Model):
             self.present = round.Round(self)
             self.present.run_model()
             self.round_num += 1
-
