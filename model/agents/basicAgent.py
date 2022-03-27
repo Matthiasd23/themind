@@ -1,4 +1,5 @@
 from mesa import Model, Agent
+import numpy.random as npr
 
 class basicAgent(Agent):
     """
@@ -24,7 +25,7 @@ class basicAgent(Agent):
 
     def get_active(self):
         self.determine_difference()
-        return self.diff
+        return npr.normal(self.diff, self.diff*0.05)
 
     def remove_card(self):
         del self.cards[0]
