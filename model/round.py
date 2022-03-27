@@ -42,8 +42,29 @@ class Round(Model):
         playing_agent.remove_card()
         self.cards_in_game -= 1
 
-        if self.check_for_mistakes(self.pile):                  # handle possible mistakes
-            print("Mistakes were made")
+        self.process_mistake()                                   # handle possible mistakes
+        print(" ")
+
+    def process_mistake(self):
+        """
+        If mistake has been made, remove cards that were supposed to be
+        played instead of current one and adjust lives + cards left
+        """
+        mistake_checker = 0
+        for player in self.g.players:
+            for card in player.cards:
+                if (card < self.pile):
+                    print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id)
+                        + ") | " + str(self.pile) + " (pile)")
+                    player.cards.remove(card)
+                    mistake_checker += 1
+
+        if mistake_checker > 0:
+            self.cards_in_game -= mistake_checker
+            self.g.num_lives -= 1
+            print("Lives left: " + str(self.g.num_lives))
+            if self.g.num_lives == 0:
+                self.g.end_game()
 
     def print_output(self, playing_agent):
         """
@@ -53,13 +74,4 @@ class Round(Model):
             print("Cards agent " + str(player.unique_id) + ": " + str(player.cards))
         print("---------------------------\n"
             + "Card played: " + str(self.pile) + " by agent " + str(playing_agent.unique_id)
-            + "\n---------------------------\n")
-
-
-    def check_for_mistakes(self, x):
-        """
-        Check all cards for any cards that are lower
-        """
-        for player in self.g.players:
-            if (any(card < x for card in player.cards)):
-                return True
+            + "\n---------------------------")

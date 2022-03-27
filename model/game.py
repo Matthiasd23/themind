@@ -1,6 +1,7 @@
 from mesa import Model, Agent
 from mesa.time import BaseScheduler
 import random
+import sys
 import model.round as round
 import model.agents.basicAgent as bA
 
@@ -10,7 +11,7 @@ class Game(Model):
     """
     def __init__(self):
         self.players = []
-        self.schedule = BaseScheduler(self)             ## Standard scheduler; do we use this??
+        self.schedule = BaseScheduler(self)             # standard scheduler; do we use this?
         self.init_players()
         self.num_lives = self.num_players
         self.init_rounds()
@@ -39,6 +40,7 @@ class Game(Model):
 
     def run_model(self):
         """Running all rounds of the game"""
+        self.start_game()
         while (self.round_num <= self.num_rounds):
             self.present = round.Round(self)
             print("\nROUND " + str(self.round_num))
@@ -46,9 +48,14 @@ class Game(Model):
             self.round_num += 1
         self.end_game()
 
+    def start_game(self):
+        print("START GAME | Players - " + str(self.num_players) + " | Lives - "
+            + str(self.num_lives) + " | Rounds - " + str(self.num_rounds))
+
     def end_game(self):
         round_distribution = [0, 0, 12, 10, 8]
         if self.num_lives == 0:
-            print("END GAME: LOST")
+            print("\nEND GAME: LOST, lives left: 0")
         else:
-            print("END GAME: WON, lives left: " + str(self.num_lives))
+            print("\nEND GAME: WON, lives left: " + str(self.num_lives))
+        sys.exit()                                        # is this an acceptable way of ending the program?

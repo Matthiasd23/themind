@@ -16,7 +16,7 @@ class basicAgent(Agent):
 
     def determine_difference(self):
         if len(self.cards) != 0:
-            self.diff = self.cards[0] - self.model.present.pile
+            self.diff = -(self.cards[0] - self.model.present.pile)
         else:
             self.diff = 1000000
             ##self.playing = False
