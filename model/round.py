@@ -30,18 +30,22 @@ class Round(Model):
     def process_cards(self):
         wait_list = []
         for player in self.g.players:
-            print(player.cards)
+            print("Cards agent " + str(player.unique_id) + ": " + str(player.cards))
             waiting_time = player.get_active()
             wait_list.append(waiting_time)
         lowest_time = wait_list.index(min(wait_list))
         playing_agent = self.g.players[lowest_time]
-        playing_card = playing_agent.cards[0]
+        self.pile = playing_agent.cards[0]
+        print("---------------------------")
+        print("Card played: " + str(self.pile) + " by agent " + str(playing_agent.unique_id))
+        print("---------------------------\n")
 
         playing_agent.remove_card()
         self.cards_in_game -= 1
-        if self.check_for_mistakes(playing_card):
-            "MISTAKE HAS BEEN FOUND"
+        if self.check_for_mistakes(self.pile):
+            print("Mistakes were made")
 
     def check_for_mistakes(self, x):
         for player in self.g.players:
-            return (any(card < x for card in player.cards))
+            if (any(card < x for card in player.cards)):
+                return True

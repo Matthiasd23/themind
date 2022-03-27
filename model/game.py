@@ -41,5 +41,6 @@ class Game(Model):
         """Running all rounds of the game"""
         while (self.round_num <= self.num_rounds):
             self.present = round.Round(self)
+            print("\nROUND " + str(self.round_num))
             self.present.run_model()
             self.round_num += 1
