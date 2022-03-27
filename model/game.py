@@ -10,7 +10,7 @@ class Game(Model):
     """
     def __init__(self):
         self.players = []
-        self.schedule = BaseScheduler(self)
+        self.schedule = BaseScheduler(self)             ## Standard scheduler; do we use this??
         self.init_players()
         self.num_lives = self.num_players
         self.init_rounds()
@@ -44,3 +44,11 @@ class Game(Model):
             print("\nROUND " + str(self.round_num))
             self.present.run_model()
             self.round_num += 1
+        self.end_game()
+
+    def end_game(self):
+        round_distribution = [0, 0, 12, 10, 8]
+        if self.num_lives == 0:
+            print("END GAME: LOST")
+        else:
+            print("END GAME: WON, lives left: " + str(self.num_lives))
