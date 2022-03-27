@@ -52,7 +52,7 @@ class Round(Model):
         """
         mistake_checker = 0
         for player in self.g.players:
-            for card in player.cards:
+            for card in player.cards[:]:                        # traverse copy of list to avoid skipping
                 if (card < self.pile):
                     print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id)
                         + ") | " + str(self.pile) + " (pile)")
