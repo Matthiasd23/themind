@@ -1,19 +1,18 @@
-from mesa import Model, Agent
-from mesa.time import BaseScheduler
-import model.game as game
 import random
 from itertools import islice
+from mesa import Model
+
 
 class Round(Model):
     """
     Model in which each round is played, retrieving and processing input from players
     """
+
     def __init__(self, g):
         self.g = g
         self.card_list = list(range(1, 100))
         self.cards_in_game = g.num_players * g.round_num
-        self.pile = 0                                           # card on top of the pile (last card that was played)
-
+        self.pile = 0  # card on top of the pile (last card that was played)
 
     def run_model(self):
         random.shuffle(self.card_list)
@@ -23,8 +22,8 @@ class Round(Model):
             distribute the shuffled cards from the top up until how many cards are needed
             """
             player.cards = list(islice(card_listt, self.g.round_num))
-            player.order_cards()                                # order cards in ascending order
-        while (self.cards_in_game > 0):
+            player.order_cards()  # order cards in ascending order
+        while self.cards_in_game > 0:
             self.process_cards()
 
     def process_cards(self):
@@ -42,7 +41,7 @@ class Round(Model):
         playing_agent.remove_card()
         self.cards_in_game -= 1
 
-        self.process_mistake()                                   # handle possible mistakes
+        self.process_mistake()  # handle possible mistakes
         print(" ")
 
     def process_mistake(self):
@@ -52,15 +51,15 @@ class Round(Model):
         """
         mistake_checker = 0
         for player in self.g.players:
-            for card in player.cards[:]:                        # traverse copy of list to avoid skipping
-                if (card < self.pile):
+            for card in player.cards[:]:  # traverse copy of list to avoid skipping
+                if card < self.pile:
                     print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id)
-                        + ") | " + str(self.pile) + " (pile)")
+                          + ") | " + str(self.pile) + " (pile)")
                     player.cards.remove(card)
                     mistake_checker += 1
 
         if mistake_checker > 0:
-            self.cards_in_game -= mistake_checker
+            self.cards_in_game -= mistake_checker  # adjust the number of cards left in game
             self.g.num_lives -= 1
             print("Lives left: " + str(self.g.num_lives))
             if self.g.num_lives == 0:
@@ -73,5 +72,5 @@ class Round(Model):
         for player in self.g.players:
             print("Cards agent " + str(player.unique_id) + ": " + str(player.cards))
         print("---------------------------\n"
-            + "Card played: " + str(self.pile) + " by agent " + str(playing_agent.unique_id)
-            + "\n---------------------------")
+              + "Card played: " + str(self.pile) + " by agent " + str(playing_agent.unique_id)
+              + "\n---------------------------")
