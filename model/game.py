@@ -63,4 +63,4 @@ class Game(Model):
         else:
             print("\nEND GAME: WON | Lives left: " + str(self.num_lives))
         self.lost = True
-        #sys.exit()  # is this an acceptable way of ending the program?
+        # sys.exit()  # is this an acceptable way of ending the program? nee
