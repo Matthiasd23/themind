@@ -1,7 +1,6 @@
 from mesa import Model, Agent
 import numpy.random as npr
 
-
 class BasicAgent(Agent):
     """
     Most basic agent just to be able to run the basic game

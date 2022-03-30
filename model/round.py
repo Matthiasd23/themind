@@ -13,6 +13,8 @@ class Round(Model):
         self.card_list = list(range(1, 100))
         self.cards_in_game = g.num_players * g.round_num
         self.pile = 0  # card on top of the pile (last card that was played)
+        self.max_interval = 100
+        self.threshold = 2
 
     def run_model(self):
         random.shuffle(self.card_list)
@@ -32,11 +34,18 @@ class Round(Model):
         When one of the waiting time is lower than the threshold, a card is played
         """
         wait_list = []
-        for player in self.g.players:
-            waiting_time = player.get_active()
-            wait_list.append(waiting_time)
-        lowest_time = wait_list.index(min(wait_list))
-        playing_agent = self.g.players[lowest_time]
+        for interval in range(self.max_interval):
+            wait_list = []
+            for player in self.g.players:
+                waiting_time = player.get_active(interval)
+                wait_list.append(waiting_time)
+            if min(wait_list) < self.threshold:
+                break
+        """
+        finding the playing agent by accessing the index of the waiting list with the lowest waiting
+        """
+        var = wait_list.index(min(wait_list))
+        playing_agent = self.g.players[var]
         self.pile = playing_agent.cards[0]
         self.print_output(playing_agent)
         playing_agent.remove_card()
