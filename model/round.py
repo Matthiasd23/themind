@@ -28,7 +28,8 @@ class Round(Model):
 
     def process_cards(self):
         """
-        Retrieve all waiting time of players, find lowest and thus also the card that is played
+        Retrieve all waiting time of players and storing them in wait_list, find lowest and thus also the card that is played
+        When one of the waiting time is lower than the threshold, a card is played
         """
         wait_list = []
         for player in self.g.players:
@@ -53,10 +54,12 @@ class Round(Model):
         for player in self.g.players:
             for card in player.cards[:]:  # traverse copy of list to avoid skipping
                 if card < self.pile:
+                    # player onthouden en eventueel in een lijst > meteen passive aanpassen
                     print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id)
                           + ") | " + str(self.pile) + " (pile)")
                     player.cards.remove(card)
                     mistake_checker += 1
+                # if mistake checker is 1
 
         if mistake_checker > 0:
             self.cards_in_game -= mistake_checker  # adjust the number of cards left in game

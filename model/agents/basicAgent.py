@@ -25,9 +25,12 @@ class BasicAgent(Agent):
             self.diff = 1000000
             # self.playing = False
 
-    def get_active(self):
+    def get_active(self, i):
         self.determine_difference()
-        return npr.normal(self.diff, self.diff * 0.05)
+        return abs(npr.normal(self.diff - i, (self.diff - i) * 0.10))
+
+    def get_passive(self):
+        pass
 
     def remove_card(self):
         del self.cards[0]
