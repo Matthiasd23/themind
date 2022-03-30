@@ -19,6 +19,7 @@ class Game(Model):
         self.init_rounds()
         self.round_num = 1
         self.present = round.Round(self)
+        self.lost = False
 
     """
     Initializing the players, different possibilities
@@ -44,12 +45,13 @@ class Game(Model):
     def run_model(self):
         """Running all rounds of the game"""
         self.start_game()
-        while self.round_num <= self.num_rounds:
+        while self.round_num <= self.num_rounds and not self.lost:
             self.present = round.Round(self)
             print("\nROUND " + str(self.round_num))
             self.present.run_model()
             self.round_num += 1
-        self.end_game()
+        if not self.lost:
+            self.end_game()
 
     def start_game(self):
         print("START GAME | Players - " + str(self.num_players) + " | Lives - "
@@ -60,4 +62,5 @@ class Game(Model):
             print("\nEND GAME: LOST | Reached: round " + str(self.round_num) + " of " + str(self.num_rounds))
         else:
             print("\nEND GAME: WON | Lives left: " + str(self.num_lives))
-        sys.exit()  # is this an acceptable way of ending the program?
+        self.lost = True
+        #sys.exit()  # is this an acceptable way of ending the program?

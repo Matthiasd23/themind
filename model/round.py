@@ -23,7 +23,7 @@ class Round(Model):
             """
             player.cards = list(islice(card_listt, self.g.round_num))
             player.order_cards()  # order cards in ascending order
-        while self.cards_in_game > 0:
+        while self.cards_in_game > 0 and not self.g.lost:
             self.process_cards()
 
     def process_cards(self):
