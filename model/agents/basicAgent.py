@@ -26,7 +26,7 @@ class BasicAgent(Agent):
 
     def get_active(self, i):
         self.determine_difference()
-        return abs(npr.normal(self.diff - i, (self.diff - i) * 0.10))
+        return abs(npr.normal(self.diff / i, (self.diff / i) * 0.10))
 
     def get_passive(self):
         pass

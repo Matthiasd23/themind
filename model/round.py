@@ -34,7 +34,7 @@ class Round(Model):
         When one of the waiting time is lower than the threshold, a card is played
         """
         wait_list = []
-        for interval in range(self.max_interval):
+        for interval in range(1,self.max_interval):
             wait_list = []
             for player in self.g.players:
                 waiting_time = player.get_active(interval)
