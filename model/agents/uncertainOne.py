@@ -29,3 +29,9 @@ class UncertainOne(Agent):
         self.determine_difference(self)
         adjusted_diff = self.diff/(self.diff-i)
         return abs(npr.normal(adjusted_diff, (adjusted_diff) * 0.05))
+
+    def get_passive(self):
+            pass
+
+    def remove_card(self):
+        del self.cards[0]
