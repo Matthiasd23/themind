@@ -1,7 +1,7 @@
 from mesa import Model, Agent
 import numpy.random as npr
 
-class BasicAgent(Agent):
+class UncertainOne(Agent):
     """
     Most basic agent just to be able to run the basic game
     Counts down the difference between the cards
@@ -22,17 +22,10 @@ class BasicAgent(Agent):
         else:
             self.diff = 1000000
             # self.playing = False
-
     """
-    return the time the agent will wait with a little bit of deviation
+    The uncertain one counts a bit 'faster' which decreases the time variable more over time
     """
-    def get_active(self, i):
-        self.determine_difference()
-        return abs(npr.normal(self.diff, (self.diff) * 0.05))
-        #return abs(npr.normal(self.diff / i, (self.diff / i) * 0.10))
-
-    def get_passive(self):
-        pass
-
-    def remove_card(self):
-        del self.cards[0]
+    def get_active(self,i):
+        self.determine_difference(self)
+        adjusted_diff = self.diff/(self.diff-i)
+        return abs(npr.normal(adjusted_diff, (adjusted_diff) * 0.05))
