@@ -3,6 +3,7 @@ import random
 import sys
 import model.round as round
 import model.agents.basicAgent as bA
+import model.agents.mathematician as m
 
 
 class Game(Model):
@@ -30,7 +31,7 @@ class Game(Model):
         self.num_players = random.choice([2, 3, 4])
         self.players = []
         for i in range(self.num_players):
-            agent = bA.BasicAgent(i, self)
+            agent = m.Mathematician(i, self)
             self.players.append(agent)
 
     """

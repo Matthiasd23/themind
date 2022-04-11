@@ -44,6 +44,7 @@ class Round(Model):
         """
         finding the playing agent by accessing the index of the waiting list with the lowest waiting
         """
+        print(wait_list)
         var = wait_list.index(min(wait_list))
         playing_agent = self.g.players[var]
         self.pile = playing_agent.cards[0]
