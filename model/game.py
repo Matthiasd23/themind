@@ -33,7 +33,7 @@ class Game(Model):
         self.players = []
         class_list = [bA.BasicAgent, uO.UncertainOne, m.Mathematician]
         for i in range(self.num_players):
-            agent = class_list[1](i, self)
+            agent = class_list[2](i, self)
             self.players.append(agent)
 
     """
