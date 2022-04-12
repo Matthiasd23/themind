@@ -29,9 +29,9 @@ class Mathematician(Agent):
     def calc_prob(self):
         round = self.model.present
         total_outcome = 100 - round.pile - len(self.cards) # possible cards (higher than pile, not in own hand)
-        fav_outcome = total_outcome - self.cards[0] + 1 # possible cards higher than own lowest
-        repeats = round.cards_in_game - len(self.cards) # number of cards in other hands
-        return pow((fav_outcome / total_outcome), repeats)
+        fav_outcome = self.cards[0] - round.pile - 1 # possible cards higher than own lowest
+        # repeats = round.cards_in_game - len(self.cards) # number of cards in other hands
+        return fav_outcome / total_outcome
 
 
     def get_active(self,i):
@@ -40,8 +40,8 @@ class Mathematician(Agent):
         wait = 10000
 
         if self.playing:
-            play_weight = self.calc_prob()
-            wait_weight = 1 - play_weight
+            wait_weight = self.calc_prob()
+            play_weight = 1 - wait_weight
             choice = random.choices([play, wait], weights=(play_weight, wait_weight))
             # certainty added to make sure the lowest card is played if two agents do decide to play at the same time
             certainty = 1 - self.diff / 100

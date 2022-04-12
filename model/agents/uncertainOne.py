@@ -10,6 +10,7 @@ class UncertainOne(Agent):
         super().__init__(unique_id, model)
         self.cards = []
         self.diff = 0
+        self.std = 0.05
         # self.playing = True
 
     def order_cards(self):
@@ -26,9 +27,10 @@ class UncertainOne(Agent):
     The uncertain one counts a bit 'faster' which decreases the time variable more over time
     """
     def get_active(self,i):
-        self.determine_difference(self)
-        adjusted_diff = self.diff/(self.diff-i)
-        return abs(npr.normal(adjusted_diff, (adjusted_diff) * 0.05))
+        self.determine_difference()
+        #adjusted_diff = self.diff/(self.diff-i)
+        adjusted_std = self.std * pow(1.01, i)
+        return abs(npr.normal(self.diff, self.diff * adjusted_std))
 
     def get_passive(self):
         pass

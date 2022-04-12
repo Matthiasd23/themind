@@ -3,6 +3,7 @@ import random
 import sys
 import model.round as round
 import model.agents.basicAgent as bA
+import model.agents.uncertainOne as uO
 import model.agents.mathematician as m
 
 
@@ -30,8 +31,9 @@ class Game(Model):
     def init_players(self):
         self.num_players = random.choice([2, 3, 4])
         self.players = []
+        class_list = [bA.BasicAgent, uO.UncertainOne, m.Mathematician]
         for i in range(self.num_players):
-            agent = m.Mathematician(i, self)
+            agent = class_list[1](i, self)
             self.players.append(agent)
 
     """
