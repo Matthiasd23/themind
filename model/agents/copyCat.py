@@ -1,17 +1,15 @@
 from mesa import Model, Agent
 import numpy.random as npr
 
-class UncertainOne(Agent):
+class CopyCat:
     """
-    Most basic agent just to be able to run the basic game
-    Counts down the difference between the cards
+    Copycat copies the other agents
     """
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
         self.cards = []
         self.diff = 0
-        self.std = 0.05
-        self.type = " (UncertainOne)"
+        self.type = " (CopyCat)"
         # self.playing = True
 
     def order_cards(self):
@@ -24,14 +22,14 @@ class UncertainOne(Agent):
         else:
             self.diff = 1000000
             # self.playing = False
+
     """
-    The uncertain one counts a bit 'faster' which decreases the time variable more over time
+    return the time the agent will wait with a little bit of deviation
     """
-    def get_active(self,i):
+    def get_active(self, i):
+        # Bij welke interval wordt gespeeld? En wat is de difference?
         self.determine_difference()
-        #adjusted_diff = self.diff/(self.diff-i)
-        adjusted_std = self.std * pow(1.01, i)
-        return abs(npr.normal(self.diff, self.diff * adjusted_std))
+        return abs(npr.normal(self.diff, (self.diff) * 0.05))
 
     def get_passive(self):
         pass
