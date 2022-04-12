@@ -10,6 +10,7 @@ class BasicAgent(Agent):
         super().__init__(unique_id, model)
         self.cards = []
         self.diff = 0
+        self.type = " (Basic agent)"
         # self.playing = True
 
     def order_cards(self):

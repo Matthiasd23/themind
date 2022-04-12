@@ -10,6 +10,7 @@ class Mathematician(Agent):
         self.cards = []
         self.diff = 0
         self.playing = True
+        self.type = " (Mathematician)"
 
     def order_cards(self):
         self.cards.sort()

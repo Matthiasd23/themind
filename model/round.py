@@ -83,7 +83,7 @@ class Round(Model):
         Print some output for a clear overview of what is happening in the game
         """
         for player in self.g.players:
-            print("Cards agent " + str(player.unique_id) + ": " + str(player.cards))
+            print("Cards agent " + str(player.unique_id) + player.type + ": " + str(player.cards))
         print("---------------------------\n"
               + "Card played: " + str(self.pile) + " by agent " + str(playing_agent.unique_id)
               + "\n---------------------------")

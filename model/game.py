@@ -5,6 +5,7 @@ import model.round as round
 import model.agents.basicAgent as bA
 import model.agents.uncertainOne as uO
 import model.agents.mathematician as m
+import model.agents.copyCat as cC
 
 
 class Game(Model):
@@ -33,7 +34,8 @@ class Game(Model):
         self.players = []
         class_list = [bA.BasicAgent, uO.UncertainOne, m.Mathematician]
         for i in range(self.num_players):
-            agent = class_list[2](i, self)
+            current_class = random.choice(class_list)
+            agent = current_class(i, self)
             self.players.append(agent)
 
     """
