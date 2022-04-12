@@ -53,6 +53,11 @@ class Game(Model):
             self.round_num += 1
         if not self.lost:
             self.end_game()
+        else:
+            if self.round_num == 4 or self.round_num == 7 or self.round_num == 10:
+                self.num_lives = self.num_lives + 1
+            # Stars at the completion of level 2, level 5 and level 8
+
 
     def start_game(self):
         print("START GAME | Players - " + str(self.num_players) + " | Lives - "

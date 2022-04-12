@@ -24,6 +24,7 @@ class Mathematician(Agent):
     """
     Use probability formula: P = (count of favourable outcomes / total count of
     outcomes) ^ number of repeats
+    Probability of waiting: P = (lowest card - pile - 1) / (100 - pile - len(cards))
     """
     def calc_prob(self):
         round = self.model.present
@@ -42,6 +43,7 @@ class Mathematician(Agent):
             play_weight = self.calc_prob()
             wait_weight = 1 - play_weight
             choice = random.choices([play, wait], weights=(play_weight, wait_weight))
+            # certainty added to make sure the lowest card is played if two agents do decide to play at the same time
             certainty = 1 - self.diff / 100
             return choice[0] - certainty
         else:
