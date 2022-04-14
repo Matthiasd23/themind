@@ -6,6 +6,7 @@ import model.agents.basicAgent as bA
 import model.agents.uncertainOne as uO
 import model.agents.mathematician as m
 import model.agents.copyCat as cC
+import model.agents.statistician as s
 
 
 class Game(Model):
@@ -32,9 +33,10 @@ class Game(Model):
     def init_players(self):
         self.num_players = random.choice([2, 3, 4])
         self.players = []
-        class_list = [bA.BasicAgent, uO.UncertainOne, m.Mathematician]
+        class_list = [bA.BasicAgent, uO.UncertainOne, m.Mathematician, s.Statistician]
         for i in range(self.num_players):
             current_class = random.choice(class_list)
+            # current_class = class_list[3]
             agent = current_class(i, self)
             self.players.append(agent)
 

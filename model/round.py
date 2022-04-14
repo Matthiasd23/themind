@@ -10,10 +10,10 @@ class Round(Model):
 
     def __init__(self, g):
         self.g = g
-        self.card_list = list(range(1, 100))
+        self.card_list = list(range(1, 101))
         self.cards_in_game = g.num_players * g.round_num
         self.pile = 0  # card on top of the pile (last card that was played)
-        self.max_interval = 100
+        self.max_interval = 101
         self.threshold = 2
 
     def run_model(self):
