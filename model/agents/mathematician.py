@@ -30,7 +30,7 @@ class Mathematician(Agent):
     def calc_prob(self):
         round = self.model.present
         total_outcome = 100 - round.pile - len(self.cards) # possible cards (higher than pile, not in own
-        fav_outcome = self.cards[0] - round.pile - 1 # possible cards higher than own lowest
+        fav_outcome = 100 - self.cards[0] - (len(self.cards) - 1) # possible cards higher than own lowest
         repeats = 1
         if round.cards_in_game - len(self.cards) > 0:
             repeats = round.cards_in_game - len(self.cards) # number of cards in other hands
@@ -41,17 +41,23 @@ class Mathematician(Agent):
         self.determine_difference()
         play = self.model.present.threshold
         wait = 10000
+        p_play = 0
+        p_wait = 0
+
+        if i == 1 and self.playing:
+            p_play = self.calc_prob()
+            print("agent: " + str(self.unique_id) + " play prob: " + str(p_play))
+            p_wait = 1 - p_play
 
         if self.playing:
-            wait_weight = self.calc_prob()
-            print("agent: " + str(self.unique_id) + " wait weight: " + str(wait_weight))
-            play_weight = 1 - wait_weight
-            choice = random.choices([play, wait], weights=(play_weight, wait_weight))
+            choice = random.choices([play, wait], weights=(p_play, p_wait))
             # certainty added to make sure the lowest card is played if two agents do decide to play at the same time
+            if choice[0] != 10000:
+                print("| interval: " + str(i))
             certainty = 1 - self.diff / 100
             return choice[0] - certainty
         else:
-            return 100000000
+            return 1000000
 
     def get_passive(self):
         pass

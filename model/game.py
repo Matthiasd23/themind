@@ -33,7 +33,7 @@ class Game(Model):
     def init_players(self):
         self.num_players = random.choice([2, 3, 4])
         self.players = []
-        class_list = [bA.BasicAgent, uO.UncertainOne, m.Mathematician, s.Statistician]
+        class_list = [bA.BasicAgent, uO.UncertainOne, s.Statistician]
         for i in range(self.num_players):
             current_class = random.choice(class_list)
             # current_class = class_list[3]

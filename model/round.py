@@ -14,7 +14,7 @@ class Round(Model):
         self.cards_in_game = g.num_players * g.round_num
         self.pile = 0  # card on top of the pile (last card that was played)
         self.max_interval = 101
-        self.threshold = 2
+        self.threshold = 1
 
     def run_model(self):
         random.shuffle(self.card_list)
@@ -40,6 +40,7 @@ class Round(Model):
                 waiting_time = player.get_active(interval)
                 wait_list.append(waiting_time)
             if min(wait_list) < self.threshold:
+                # print("interval: " + str(interval))
                 break
         """
         finding the playing agent by accessing the index of the waiting list with the lowest waiting
