@@ -27,7 +27,7 @@ class BasicAgent(Agent):
     """
     method to update internal variables if needed
     """
-    def update_vars(self):
+    def update_vars(self, c, pile):
         pass
 
     """

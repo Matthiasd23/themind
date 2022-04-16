@@ -31,8 +31,9 @@ class CopyCat:
     """
     method to update internal variables if needed
     """
-    def update_vars(self):
-        pass
+    def update_vars(self, c, pile):
+        d = c - pile
+
 
     """
     return the time the agent will wait with a little bit of deviation
