@@ -24,6 +24,13 @@ class UncertainOne(Agent):
         else:
             self.diff = 1000000
             # self.playing = False
+
+    """
+    method to update internal variables if needed
+    """
+    def update_vars(self):
+        pass
+
     """
     The uncertain one counts a bit 'faster' which decreases the time variable more over time
     """

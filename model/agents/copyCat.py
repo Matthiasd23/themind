@@ -10,6 +10,7 @@ class CopyCat:
         self.cards = []
         self.diff = 0
         self.type = " (CopyCat)"
+        self.coeff = 1
         # self.playing = True
 
     def order_cards(self):
@@ -23,12 +24,24 @@ class CopyCat:
             self.diff = 1000000
             # self.playing = False
 
+    def include_copied(self):
+        # Adjusting the difference with a coefficient variable that is updated after a card is played
+        self.diff *= self.coeff
+
+    """
+    method to update internal variables if needed
+    """
+    def update_vars(self):
+        pass
+
     """
     return the time the agent will wait with a little bit of deviation
+    Also looks at the other players actions and adjusts its speed according to their actions
     """
     def get_active(self, i):
         # Bij welke interval wordt gespeeld? En wat is de difference?
         self.determine_difference()
+        self.include_copied()
         return abs(npr.normal(self.diff, (self.diff) * 0.05))
 
     def get_passive(self):

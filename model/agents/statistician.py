@@ -23,6 +23,12 @@ class Statistician(Agent):
         else:
             self.playing = False
 
+    """
+    method to update internal variables if needed
+    """
+    def update_vars(self):
+        pass
+
 
     def calc_interval(self):
         round = self.model.present

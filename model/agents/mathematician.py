@@ -23,6 +23,12 @@ class Mathematician(Agent):
             self.playing = False
 
     """
+    method to update internal variables if needed
+    """
+    def update_vars(self):
+        pass
+
+    """
     Use probability formula: P = (count of favourable outcomes / total count of
     outcomes) ^ number of repeats
     Probability of waiting: P = (lowest card - pile - 1) / (100 - pile - len(cards))

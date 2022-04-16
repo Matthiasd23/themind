@@ -25,6 +25,12 @@ class BasicAgent(Agent):
             # self.playing = False
 
     """
+    method to update internal variables if needed
+    """
+    def update_vars(self):
+        pass
+
+    """
     return the time the agent will wait with a little bit of deviation
     """
     def get_active(self, i):
