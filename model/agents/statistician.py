@@ -26,7 +26,7 @@ class Statistician(Agent):
     """
     method to update internal variables if needed
     """
-    def update_vars(self, c, pile):
+    def update_vars(self, c, pile, time):
         pass
 
 

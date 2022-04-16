@@ -49,13 +49,13 @@ class Round(Model):
         var = wait_list.index(min(wait_list))
         playing_agent = self.g.players[var]
         played_card = playing_agent.cards[0]
-        self.update_pile(played_card,playing_agent, wait_list)
+        self.update_pile(played_card,playing_agent, min(wait_list))
 
-    def update_pile(self, card, agent, wait_l):
+    def update_pile(self, card, agent, time):
         # a card is played so the copycat agents are to be updated
         for player in self.g.players:
             if not player == agent:
-                player.update_vars(card,self.pile)
+                player.update_vars(card,self.pile,time)
         self.pile = card
         self.print_output(agent)
         agent.remove_card()
@@ -63,6 +63,7 @@ class Round(Model):
 
         self.process_mistake()  # handle possible mistakes
         print(" ")
+        print(time)
 
     def process_mistake(self):
         """
