@@ -34,6 +34,7 @@ class Round(Model):
         When one of the waiting time is lower than the threshold, a card is played
         """
         wait_list = []
+        time = 0
         for interval in range(1,self.max_interval):
             wait_list = []
             for player in self.g.players:
@@ -41,6 +42,7 @@ class Round(Model):
                 wait_list.append(waiting_time)
             if min(wait_list) < self.threshold:
                 # print("interval: " + str(interval))
+                time = interval
                 break
         """
         finding the playing agent by accessing the index of the waiting list with the lowest waiting
@@ -49,12 +51,13 @@ class Round(Model):
         var = wait_list.index(min(wait_list))
         playing_agent = self.g.players[var]
         played_card = playing_agent.cards[0]
-        self.update_pile(played_card,playing_agent, min(wait_list))
+        self.update_pile(played_card,playing_agent, time)
 
     def update_pile(self, card, agent, time):
         # a card is played so the copycat agents are to be updated
         for player in self.g.players:
             if not player == agent:
+                print("playing")
                 player.update_vars(card,self.pile,time)
         self.pile = card
         self.print_output(agent)
@@ -63,7 +66,6 @@ class Round(Model):
 
         self.process_mistake()  # handle possible mistakes
         print(" ")
-        print(time)
 
     def process_mistake(self):
         """

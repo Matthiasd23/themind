@@ -33,8 +33,8 @@ class CopyCat:
     """
     def update_vars(self, c, pile, time):
         d = c - pile
-
-
+        self.coeff = self.coeff * d/time
+        print("coeff: " + str(self.coeff))
 
     """
     return the time the agent will wait with a little bit of deviation
