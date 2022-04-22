@@ -30,10 +30,10 @@ class BasicAgent(Agent):
     def update_vars(self, c, pile, time):
         pass
 
-    """
-    return the time the agent will wait with a little bit of deviation
-    """
     def get_active(self, i):
+        """
+        return the time the agent will wait with a little bit of deviation
+        """
         self.determine_difference(i)
         return abs(npr.normal(self.diff, (self.diff) * 0.05))
         #return abs(npr.normal(self.diff / i, (self.diff / i) * 0.10))

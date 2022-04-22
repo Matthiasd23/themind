@@ -54,10 +54,12 @@ class Round(Model):
         self.update_pile(played_card,playing_agent, time)
 
     def update_pile(self, card, agent, time):
+        """
+        Updating the pile after a card is played, and updating agents if necessary
+        """
         # a card is played so the copycat agents are to be updated
         for player in self.g.players:
             if not player == agent:
-                print("playing")
                 player.update_vars(card,self.pile,time)
         self.pile = card
         self.print_output(agent)

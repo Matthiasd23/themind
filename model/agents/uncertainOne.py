@@ -31,10 +31,10 @@ class UncertainOne(Agent):
     def update_vars(self, c, pile, time):
         pass
 
-    """
-    The uncertain one counts a bit 'faster' which decreases the time variable more over time
-    """
     def get_active(self,i):
+        """
+        The uncertain one has an adjusted deviation based on the time (interval) which makes him quite unpredictable
+        """
         self.determine_difference(i)
         #adjusted_diff = self.diff/(self.diff-i)
         adjusted_std = self.std * pow(1.01, i)
