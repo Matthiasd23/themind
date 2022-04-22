@@ -1,7 +1,7 @@
 from mesa import Model, Agent
 import numpy.random as npr
 
-class CopyCat:
+class CopyCat(Agent):
     """
     Copycat copies the other agents
     """
@@ -33,6 +33,7 @@ class CopyCat:
     """
     def update_vars(self, c, pile, time):
         d = c - pile
+        print("d: " + str(d) + " time: " + str(time))
         self.coeff = self.coeff * d/time
         print("coeff: " + str(self.coeff))
 
