@@ -34,6 +34,7 @@ class CopyCat(Agent):
     """
     def update_vars(self, c, pile, time):
         d = c - pile
+        #d = d * self.coeff
         print("d: " + str(d) + " time: " + str(time))
         self.coeff = self.coeff + (time + self.model.present.threshold - d)*self.alpha
         print("coeff: " + str(self.coeff))
@@ -43,10 +44,13 @@ class CopyCat(Agent):
     Also looks at the other players actions and adjusts its speed according to their actions
     """
     def get_active(self, i):
+        self.alpha = 0.0005 * self.model.present.cards_in_game
         # Bij welke interval wordt gespeeld? En wat is de difference?
         self.determine_difference()
         self.include_copied()
-        return abs(npr.normal(self.diff, (self.diff) * 0.05))
+        #self.include_passive()
+        output = abs(npr.normal(self.diff, (self.diff) * 0.05))
+        return output - i
 
     def get_passive(self):
         pass

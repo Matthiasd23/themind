@@ -16,9 +16,9 @@ class BasicAgent(Agent):
     def order_cards(self):
         self.cards.sort()
 
-    def determine_difference(self, i):
+    def determine_difference(self):
         if len(self.cards) != 0:
-            self.diff = self.cards[0] - self.model.present.pile - i
+            self.diff = self.cards[0] - self.model.present.pile
             # self.diff = -(self.cards[0] - self.model.present.pile) -> check processing mistakes
         else:
             self.diff = 1000000
@@ -34,9 +34,11 @@ class BasicAgent(Agent):
         """
         return the time the agent will wait with a little bit of deviation
         """
-        self.determine_difference(i)
-        return abs(npr.normal(self.diff, (self.diff) * 0.05))
-        #return abs(npr.normal(self.diff / i, (self.diff / i) * 0.10))
+        self.determine_difference()
+        output = abs(npr.normal(self.diff, (self.diff) * 0.05))
+        if (output - i < 1):
+            print("interval " + str(i) + " diff " + str(self.diff))
+        return output - i
 
     def get_passive(self):
         pass

@@ -18,9 +18,9 @@ class UncertainOne(Agent):
     def order_cards(self):
         self.cards.sort()
 
-    def determine_difference(self, i):
+    def determine_difference(self):
         if len(self.cards) != 0:
-            self.diff = self.cards[0] - self.model.present.pile - i
+            self.diff = self.cards[0] - self.model.present.pile
             # self.diff = -(self.cards[0] - self.model.present.pile) -> check processing mistakes
         else:
             self.diff = 1000000
@@ -36,10 +36,11 @@ class UncertainOne(Agent):
         """
         The uncertain one has an adjusted deviation based on the time (interval) which makes him quite unpredictable
         """
-        self.determine_difference(i)
+        self.determine_difference()
         #adjusted_diff = self.diff/(self.diff-i)
         adjusted_std = self.std * pow(1.01, i)
-        return abs(npr.normal(self.diff, self.diff * adjusted_std))
+        output = abs(npr.normal(self.diff, self.diff * adjusted_std))
+        return output - i
 
     def get_passive(self):
 
