@@ -12,6 +12,7 @@ class UncertainOne(Agent):
         self.diff = 0
         self.std = 0.05
         self.type = " (UncertainOne)"
+        self.P = 1
         # self.playing = True
 
     def order_cards(self):
@@ -41,6 +42,7 @@ class UncertainOne(Agent):
         return abs(npr.normal(self.diff, self.diff * adjusted_std))
 
     def get_passive(self):
+
         pass
 
     def remove_card(self):

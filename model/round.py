@@ -66,10 +66,10 @@ class Round(Model):
         agent.remove_card()
         self.cards_in_game -= 1
 
-        self.process_mistake()  # handle possible mistakes
+        self.process_mistake(agent)  # handle possible mistakes
         print(" ")
 
-    def process_mistake(self):
+    def process_mistake(self, agent):
         """
         If mistake has been made, remove cards that were supposed to be
         played instead of current one and adjust lives + cards left
@@ -77,14 +77,22 @@ class Round(Model):
         mistake_checker = 0
         for player in self.g.players:
             for card in player.cards[:]:  # traverse copy of list to avoid skipping
+                # player die op had moeten gooien
                 if card < self.pile:
                     # player onthouden en eventueel in een lijst > meteen passive aanpassen
                     print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id)
                           + ") | " + str(self.pile) + " (pile)")
-                    player.cards.remove(card)
-                    mistake_checker += 1
-                # if mistake checker is 1
 
+                    player.cards.remove(card)
+                    #player.get_passive()
+                    mistake_checker += 1
+
+        # player die verkeerd heeft opgegooid, onthouden in het geval van een fout
+        if mistake_checker:
+            #player.get_passive()
+
+
+        # if mistake checker is 1
         if mistake_checker > 0:
             self.cards_in_game -= mistake_checker  # adjust the number of cards left in game
             self.g.num_lives -= 1
