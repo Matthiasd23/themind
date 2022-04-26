@@ -90,7 +90,7 @@ class Round(Model):
         # player die verkeerd heeft opgegooid, onthouden in het geval van een fout
         if mistake_checker:
             #player.get_passive()
-
+            pass
 
         # if mistake checker is 1
         if mistake_checker > 0:

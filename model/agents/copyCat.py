@@ -11,6 +11,7 @@ class CopyCat(Agent):
         self.diff = 0
         self.type = " (CopyCat)"
         self.coeff = 1
+        self.alpha = 0.0005
         # self.playing = True
 
     def order_cards(self):
@@ -34,7 +35,7 @@ class CopyCat(Agent):
     def update_vars(self, c, pile, time):
         d = c - pile
         print("d: " + str(d) + " time: " + str(time))
-        self.coeff = self.coeff * d/time
+        self.coeff = self.coeff + (time + self.model.present.threshold - d)*self.alpha
         print("coeff: " + str(self.coeff))
 
     """
