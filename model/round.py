@@ -84,12 +84,12 @@ class Round(Model):
                           + ") | " + str(self.pile) + " (pile)")
 
                     player.cards.remove(card)
-                    #player.get_passive()
+                    #player.get_passive() > sneller spelen
                     mistake_checker += 1
 
         # player die verkeerd heeft opgegooid, onthouden in het geval van een fout
         if mistake_checker:
-            #player.get_passive()
+            #player.get_passive(agent, mistake_checker) > langzamer gaan spelen (op basis van hoeveelheid fouten)
             pass
 
         # if mistake checker is 1
