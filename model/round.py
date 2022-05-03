@@ -47,7 +47,6 @@ class Round(Model):
         """
         finding the playing agent by accessing the index of the waiting list with the lowest waiting
         """
-        print(wait_list)
         var = wait_list.index(min(wait_list))
         playing_agent = self.g.players[var]
         played_card = playing_agent.cards[0]
@@ -62,14 +61,14 @@ class Round(Model):
             if not player == agent:
                 player.update_vars(card,self.pile,time)
         self.pile = card
-        self.print_output(agent)
+        # self.print_output(agent)
         agent.remove_card()
         self.cards_in_game -= 1
 
-        self.process_mistake(agent)  # handle possible mistakes
+        self.process_mistake(agent, time)  # handle possible mistakes
         print(" ")
 
-    def process_mistake(self, agent):
+    def process_mistake(self, agent, time):
         """
         If mistake has been made, remove cards that were supposed to be
         played instead of current one and adjust lives + cards left
@@ -77,10 +76,8 @@ class Round(Model):
         """
         mistake_checker = 0
         for player in self.g.players:
-            for card in player.cards[:]:  # traverse copy of list to avoid skipping
-                # player die op had moeten gooien
+            for card in player.cards[:]:  # traverse copy of list to av
                 if card < self.pile:
-                    # player onthouden en eventueel in een lijst > meteen passive aanpassen
                     print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id)
                           + ") | " + str(self.pile) + " (pile)")
                     player.shouldve_thrown(time)       # Player that was too late
@@ -90,7 +87,7 @@ class Round(Model):
                     P = player.get_passive()
                     print(P)
 
-        # if mistake checker is 1
+        # if mistake has been made
         if mistake_checker > 0:
             self.cards_in_game -= mistake_checker  # adjust the number of cards left in game
             self.g.num_lives -= 1

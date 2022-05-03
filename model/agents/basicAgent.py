@@ -1,5 +1,6 @@
 from mesa import Model, Agent
 import numpy.random as npr
+import math
 
 class BasicAgent(Agent):
     """
@@ -51,7 +52,7 @@ class BasicAgent(Agent):
         goal_interval = played_interval - 1
         self.P = self.P + ((1 - (goal_interval / self.planned_interval)) * 0.5)
 
-    def shouldve_thrown(self, agent, pile):
+    def shouldve_thrown(self, played_interval):
         """
         The passive variable (P) is adjusted scaled with the number the difference in card (and maybe the level should influence the scale?)
         The player should be be playing faster (lower P) because he threw too late
