@@ -31,12 +31,12 @@ class Game(Model):
     """
 
     def init_players(self):
-        self.num_players = random.choice([2, 3, 4])
+        self.num_players = random.choice([2, 3 ,4])
         self.players = []
         class_list = [bA.BasicAgent, uO.UncertainOne, s.Statistician, cC.CopyCat]
         for i in range(self.num_players):
-            current_class = random.choice(class_list)
-            # current_class = class_list[3]
+            #current_class = random.choice(class_list)
+            current_class = class_list[0]
             agent = current_class(i, self)
             self.players.append(agent)
 

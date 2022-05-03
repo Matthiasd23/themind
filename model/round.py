@@ -83,16 +83,12 @@ class Round(Model):
                     # player onthouden en eventueel in een lijst > meteen passive aanpassen
                     print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id)
                           + ") | " + str(self.pile) + " (pile)")
-                    #player.get_passive() > sneller spelen Implementation:
-                    #player.shouldve_thrown(agent, self.pile)       # BEFORE REMOVING A CARD OR SHOULDVE_THROWN NEEDS TO BE CHANGED
+                    player.shouldve_thrown(time)       # Player that was too late
+                    agent.wrong_throw(time)            # Agent that was too fast
                     player.cards.remove(card)
                     mistake_checker += 1
-
-        # player die verkeerd heeft opgegooid
-        if mistake_checker:
-            #player.get_passive(agent, mistake_checker) > langzamer gaan spelen (op basis van hoeveelheid fouten)
-            #player.wrong_throw(agent,mistake_checker,self.pile)
-            pass
+                    P = player.get_passive()
+                    print(P)
 
         # if mistake checker is 1
         if mistake_checker > 0:
