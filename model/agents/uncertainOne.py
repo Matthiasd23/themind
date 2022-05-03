@@ -14,6 +14,7 @@ class UncertainOne(Agent):
         self.diff = 0
         self.std = 0.05
         self.type = " (UncertainOne)"
+        self.planned_interval = 0
         self.P = 1
         self.adaptability = 1.0
         # self.playing = True
@@ -43,8 +44,8 @@ class UncertainOne(Agent):
         self.determine_difference()
         # adjusted_diff = self.diff/(self.diff-i)
         adjusted_std = self.std * pow(1.01, i)
-        output = abs(npr.normal(self.diff, self.diff * adjusted_std))
-        return output - i
+        self.planned_interval = abs(npr.normal(self.diff * self.P, self.diff * adjusted_std))
+        return self.planned_interval - i
 
     def get_passive(self):
         return self.P

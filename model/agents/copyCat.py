@@ -49,7 +49,7 @@ class CopyCat(Agent):
     """
 
     def get_active(self, i):
-        self.alpha = 0.0005 * self.model.present.cards_in_game
+        self.beta = self.alpha * self.model.present.cards_in_game
         # Bij welke interval wordt gespeeld? En wat is de difference?
         self.determine_difference()
         self.include_copied()
