@@ -73,6 +73,7 @@ class Round(Model):
         """
         If mistake has been made, remove cards that were supposed to be
         played instead of current one and adjust lives + cards left
+        agent is the player that played the card
         """
         mistake_checker = 0
         for player in self.g.players:
@@ -82,14 +83,15 @@ class Round(Model):
                     # player onthouden en eventueel in een lijst > meteen passive aanpassen
                     print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id)
                           + ") | " + str(self.pile) + " (pile)")
-
+                    #player.get_passive() > sneller spelen Implementation:
+                    #player.shouldve_thrown(agent, self.pile)       # BEFORE REMOVING A CARD OR SHOULDVE_THROWN NEEDS TO BE CHANGED
                     player.cards.remove(card)
-                    #player.get_passive() > sneller spelen
                     mistake_checker += 1
 
-        # player die verkeerd heeft opgegooid, onthouden in het geval van een fout
+        # player die verkeerd heeft opgegooid
         if mistake_checker:
             #player.get_passive(agent, mistake_checker) > langzamer gaan spelen (op basis van hoeveelheid fouten)
+            #player.wrong_throw(agent,mistake_checker,self.pile)
             pass
 
         # if mistake checker is 1

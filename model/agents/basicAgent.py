@@ -11,6 +11,7 @@ class BasicAgent(Agent):
         self.cards = []
         self.diff = 0
         self.type = " (Basic agent)"
+        self.P = 1
         # self.playing = True
 
     def order_cards(self):
@@ -36,12 +37,31 @@ class BasicAgent(Agent):
         """
         self.determine_difference()
         output = abs(npr.normal(self.diff, (self.diff) * 0.05))
+        # Two possible additions of the passive variable P:
+        # output = abs(npr.normal(self.diff*P, (self.diff) * 0.05))
+        # output = abs(npr.normal(self.diff*P, (self.diff*P) * 0.05))
         if (output - i < 1):
             print("interval " + str(i) + " diff " + str(self.diff))
         return output - i
 
     def get_passive(self):
-        pass
+        return P
+
+    def wrong_throw(self, agent, mistakes, pile):
+        """
+        The passive variable (P) is adjusted scaled with the number of mistakes, and the difference in card (and maybe the level should influence the scale?)
+        The player should be be playing slower (higher P) because he threw too soon
+        """
+        # maybe look at the cards that were lower than the card that the player threw up
+        self.P = self.P + (0.05*mistakes)
+
+    def shouldve_thrown(self, agent, pile):
+        """
+        The passive variable (P) is adjusted scaled with the number the difference in card (and maybe the level should influence the scale?)
+        The player should be be playing faster (lower P) because he threw too late
+        """
+        diff = pile - self.cards[0]
+        self.P = self.P - (diff/pile)
 
     def remove_card(self):
         del self.cards[0]
