@@ -1,5 +1,6 @@
 import random
 from itertools import islice
+
 from mesa import Model
 
 
@@ -30,8 +31,8 @@ class Round(Model):
 
     def process_cards(self):
         """
-        Retrieve all waiting time of players and storing them in wait_list, find lowest and thus also the card that is played
-        When one of the waiting time is lower than the threshold, a card is played
+        Retrieve all waiting time of players and storing them in wait_list, find lowest and thus also the card that
+        is played When one of the waiting time is lower than the threshold, a card is played
         """
         wait_list = []
         time = 1
@@ -50,7 +51,7 @@ class Round(Model):
         var = wait_list.index(min(wait_list))
         playing_agent = self.g.players[var]
         played_card = playing_agent.cards[0]
-        self.update_pile(played_card,playing_agent, time)
+        self.update_pile(played_card, playing_agent, time)
 
     def update_pile(self, card, agent, time):
         """
@@ -59,9 +60,9 @@ class Round(Model):
         # a card is played so the copycat agents are to be updated
         for player in self.g.players:
             if not player == agent:
-                player.update_vars(card,self.pile,time)
+                player.update_vars(card, self.pile, time)
         self.pile = card
-        # self.print_output(agent)
+        self.print_output(agent)
         agent.remove_card()
         self.cards_in_game -= 1
 
@@ -80,12 +81,11 @@ class Round(Model):
                 if card < self.pile:
                     print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id)
                           + ") | " + str(self.pile) + " (pile)")
-                    player.shouldve_thrown(time)       # Player that was too late
-                    agent.wrong_throw(time)            # Agent that was too fast
+                    player.shouldve_thrown(time)  # Player that was too late
+                    agent.wrong_throw(time)  # Agent that was too fast
                     player.cards.remove(card)
                     mistake_checker += 1
-                    P = player.get_passive()
-                    print(P)
+            print("agent " + str(player.unique_id) + " | P: " + str(player.get_passive()))
 
         # if mistake has been made
         if mistake_checker > 0:

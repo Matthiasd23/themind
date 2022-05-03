@@ -1,17 +1,21 @@
-from mesa import Model, Agent
 import numpy.random as npr
+from mesa import Agent
+
 
 class CopyCat(Agent):
     """
     Copycat copies the other agents
     """
+
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
         self.cards = []
+        self.std = 0.05
         self.diff = 0
         self.type = " (CopyCat)"
         self.coeff = 1
         self.alpha = 0.0005
+        self.beta = 0.0005               # volledig gebaseerd op self.alpha
         # self.playing = True
 
     def order_cards(self):
@@ -32,27 +36,34 @@ class CopyCat(Agent):
     """
     method to update internal variables if needed
     """
+
     def update_vars(self, c, pile, time):
         d = c - pile
-        #d = d * self.coeff
-        print("d: " + str(d) + " time: " + str(time))
-        self.coeff = self.coeff + (time + self.model.present.threshold - d)*self.alpha
-        print("coeff: " + str(self.coeff))
+        # d = d * self.coeff
+        self.coeff = self.coeff + (time + self.model.present.threshold - d) * self.beta
+        # print("coeff: " + str(self.coeff))
 
     """
     return the time the agent will wait with a little bit of deviation
     Also looks at the other players actions and adjusts its speed according to their actions
     """
+
     def get_active(self, i):
         self.alpha = 0.0005 * self.model.present.cards_in_game
         # Bij welke interval wordt gespeeld? En wat is de difference?
         self.determine_difference()
         self.include_copied()
-        #self.include_passive()
-        output = abs(npr.normal(self.diff, (self.diff) * 0.05))
+        # self.include_passive()
+        output = abs(npr.normal(self.diff, (self.diff) * self.std))
         return output - i
 
     def get_passive(self):
+        pass
+
+    def wrong_throw(self, played_interval):
+        pass
+
+    def shouldve_thrown(self, played_interval):
         pass
 
     def remove_card(self):

@@ -1,10 +1,13 @@
-from mesa import Model, Agent
 import random
+
+from mesa import Agent
+
 
 class Mathematician(Agent):
     """
     Agent that uses probability calculation to decide on playing
     """
+
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
         self.cards = []
@@ -25,6 +28,7 @@ class Mathematician(Agent):
     """
     method to update internal variables if needed
     """
+
     def update_vars(self, c, pile, time):
         pass
 
@@ -33,17 +37,17 @@ class Mathematician(Agent):
     outcomes) ^ number of repeats
     Probability of waiting: P = (lowest card - pile - 1) / (100 - pile - len(cards))
     """
+
     def calc_prob(self):
         round = self.model.present
-        total_outcome = 100 - round.pile - len(self.cards) # possible cards (higher than pile, not in own
-        fav_outcome = 100 - self.cards[0] - (len(self.cards) - 1) # possible cards higher than own lowest
+        total_outcome = 100 - round.pile - len(self.cards)  # possible cards (higher than pile, not in own
+        fav_outcome = 100 - self.cards[0] - (len(self.cards) - 1)  # possible cards higher than own lowest
         repeats = 1
         if round.cards_in_game - len(self.cards) > 0:
-            repeats = round.cards_in_game - len(self.cards) # number of cards in other hands
+            repeats = round.cards_in_game - len(self.cards)  # number of cards in other hands
         return pow((fav_outcome / total_outcome), repeats)
 
-
-    def get_active(self,i):
+    def get_active(self, i):
         self.determine_difference()
         play = self.model.present.threshold
         wait = 10000
@@ -66,6 +70,12 @@ class Mathematician(Agent):
             return 1000000
 
     def get_passive(self):
+        pass
+
+    def wrong_throw(self, played_interval):
+        pass
+
+    def shouldve_thrown(self, played_interval):
         pass
 
     def remove_card(self):

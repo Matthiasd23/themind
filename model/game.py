@@ -1,12 +1,13 @@
-from mesa import Model, Agent
 import random
-import sys
-import model.round as round
+
+from mesa import Model
+
 import model.agents.basicAgent as bA
-import model.agents.uncertainOne as uO
-import model.agents.mathematician as m
 import model.agents.copyCat as cC
 import model.agents.statistician as s
+import model.agents.uncertainOne as uO
+import model.agents.mathematician as m
+import model.round as round
 
 
 class Game(Model):
@@ -31,12 +32,12 @@ class Game(Model):
     """
 
     def init_players(self):
-        self.num_players = random.choice([2, 3 ,4])
+        self.num_players = random.choice([2, 3, 4])
         self.players = []
         class_list = [bA.BasicAgent, uO.UncertainOne, s.Statistician, cC.CopyCat]
         for i in range(self.num_players):
-            #current_class = random.choice(class_list)
-            current_class = class_list[0]
+            current_class = random.choice(class_list)
+            # current_class = class_list[0]
             agent = current_class(i, self)
             self.players.append(agent)
 
@@ -62,7 +63,6 @@ class Game(Model):
         if not self.lost:
             self.end_game()
             # Stars at the completion of level 2, level 5 and level 8
-
 
     def start_game(self):
         print("START GAME | Players - " + str(self.num_players) + " | Lives - "
