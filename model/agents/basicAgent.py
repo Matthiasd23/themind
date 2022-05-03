@@ -61,7 +61,8 @@ class BasicAgent(Agent):
         The player should be be playing faster (lower P) because he threw too late
         """
         diff = pile - self.cards[0]
-        self.P = self.P - (diff/pile)
+        # log(diff) wordt groter dan 1 bij een diff > 10 (dus P kan 'makkelijk' negatief worden)
+        self.P = self.P - log(diff)
 
     def remove_card(self):
         del self.cards[0]
