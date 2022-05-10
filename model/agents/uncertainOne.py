@@ -50,15 +50,14 @@ class UncertainOne(Agent):
     def get_passive(self):
         return self.P
 
-    def wrong_throw(self, played_interval):
+    def wrong_throw(self, card, pile):
         """
-        The passive variable (P) is adjusted based on the interval that was played and the interval the agent planned to play
-        The player should be be playing slower (higher P) because he threw too soon (strong adjustments)
+        The passive variable (P) is adjusted based on card that shouldve been played and the card that was (wrongfully) played
+        Multiplied by adaptability (0.5 / 50%)
+        The player should be be playing slower (higher P) because he threw too soon
         """
-        goal_interval = played_interval - 1
-        self.P = self.P + ((1 - (goal_interval / self.planned_interval)) * self.adaptability)
-        print("agent (early)" + str(self.unique_id) + " | played_interval " + str(
-            played_interval) + " | planned interval " + str(self.planned_interval))
+        self.P = self.P + ((1 - (card / pile)) * self.adaptability)
+        print("agent (early)" + str(self.unique_id) + " | card " + str(card) + " | pile " + str(pile))
 
     def shouldve_thrown(self, played_interval):
         """
@@ -66,7 +65,7 @@ class UncertainOne(Agent):
         adjusting P to instead play the interval before the one that was actually played, multiplied by the adaptibility
         The player should be be playing faster (lower P) because he threw too late
         """
-        goal_interval = played_interval - 1
+        goal_interval = played_interval
         self.P = self.P - ((1 - (goal_interval / self.planned_interval)) * self.adaptability)
         print("agent (late) " + str(self.unique_id) + " | played_interval " + str(played_interval) + " | planned interval " + str(self.planned_interval))
 

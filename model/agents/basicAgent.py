@@ -38,18 +38,46 @@ class BasicAgent(Agent):
             self.diff = 1000000
             # self.playing = False
 
-    """
-    method to update internal variables if needed
-    """
+    def suggest_ninja(self):
+        """
+        method to either suggest a ninja star or not, the average difference in cards should be lower than the threshold
+        """
+        return self.find_avg_diff_cards() < self.ninja_lower_threshold
+
+
+    def ninja_suggestion(self):
+        """
+        method to react to ninja suggestion by other player (agree if under upper threshold)
+        """
+        return self.find_avg_diff_cards() < self.ninja_upper_threshold
+
+
+    def update_ninja(self):
+        pass
+
+    def find_avg_diff_cards(self):
+        """
+        method to find the average difference between the cards in the list
+        """
+        if len(self.cards) != 0:
+            return sum(self.cards)/len(self.cards)
+        else:
+            return 100
+
 
     def update_vars(self, c, pile, time):
+        """
+        method to update internal variables if needed
+        """
         pass
 
     def get_active(self, i):
         """
         return the time the agent will wait with a little bit of deviation
         """
-        self.determine_difference()
+        if(i == 1):
+            self.determine_difference()
+            self.update_ninja()
         self.planned_interval = abs(npr.normal(self.diff * self.P, (
             self.diff) * self.std))  # NOT CHANGING THE STD DEVIATION because it goes both ways
         return self.planned_interval - i
@@ -59,7 +87,8 @@ class BasicAgent(Agent):
 
     def wrong_throw(self, card, pile):
         """
-        The passive variable (P) is adjusted based on the interval that was played and the interval the agent planned to play
+        The passive variable (P) is adjusted based on card that shouldve been played and the card that was (wrongfully) played
+        Multiplied by adaptability (0.5 / 50%)
         The player should be be playing slower (higher P) because he threw too soon
         """
         self.P = self.P + ((1 - (card / pile)) * self.adaptability)

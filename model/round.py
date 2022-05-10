@@ -67,6 +67,8 @@ class Round(Model):
         self.cards_in_game -= 1
 
         self.process_mistake(agent, time)  # handle possible mistakes
+        """ninja addition"""
+        self.check_for_ninja()
         print(" ")
 
     def process_mistake(self, agent, time):
@@ -95,6 +97,29 @@ class Round(Model):
             print("Lives left: " + str(self.g.num_lives))
             if self.g.num_lives == 0:
                 self.g.end_game()
+
+    def check_for_ninja(self):
+        """
+        Checking if someone would like to do a ninjastar suggestion by looping through the agents and finding one that is lower than a certain threshold
+        """
+        ninja = False
+        reaction = True
+        for player in self.g.players:
+            if not ninja:
+                ninja = player.suggest_ninja()              # if someone wants to suggest ninja, dont look at the others
+            if reaction:
+                reaction = player.ninja_suggestion()        # check if everyone okay with ninja
+        if ninja and reaction:
+            self.play_ninja()
+
+    def play_ninja(self):
+        tuple_list = []
+        for player in self.g.players:
+            tuple_list.append((player.cards[0], player.unique_id))
+            player.remove_card()
+        tuple_list.sorted(key=lambda tup: tup[0], reverse=True)
+        print("tuple" + str(tuple_list))
+
 
     def print_output(self, playing_agent):
         """
