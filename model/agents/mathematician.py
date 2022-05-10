@@ -72,7 +72,7 @@ class Mathematician(Agent):
     def get_passive(self):
         pass
 
-    def wrong_throw(self, played_interval):
+    def wrong_throw(self, card, pile):
         pass
 
     def shouldve_thrown(self, played_interval):
