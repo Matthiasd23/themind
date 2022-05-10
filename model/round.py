@@ -16,6 +16,7 @@ class Round(Model):
         self.pile = 0  # card on top of the pile (last card that was played)
         self.max_interval = 101
         self.threshold = 1
+        self.ninja_active = False
 
     def run_model(self):
         random.shuffle(self.card_list)
@@ -68,7 +69,8 @@ class Round(Model):
 
         self.process_mistake(agent, time)  # handle possible mistakes
         """ninja addition"""
-        self.check_for_ninja()
+        if not self.ninja_active:
+            self.check_for_ninja()
         print(" ")
 
     def process_mistake(self, agent, time):
@@ -88,7 +90,6 @@ class Round(Model):
                     agent.wrong_throw(card, self.pile)  # Agent that was too fast
                     player.cards.remove(card)
                     mistake_checker += 1
-            print("agent " + str(player.unique_id) + " | P: " + str(player.get_passive()))
 
         # if mistake has been made
         if mistake_checker > 0:
@@ -106,20 +107,27 @@ class Round(Model):
         reaction = True
         for player in self.g.players:
             if not ninja:
-                ninja = player.suggest_ninja()              # if someone wants to suggest ninja, dont look at the others
+                ninja = player.suggest_ninja()  # if someone wants to suggest ninja, dont look at the others
             if reaction:
-                reaction = player.ninja_suggestion()        # check if everyone okay with ninja
+                reaction = player.ninja_suggestion()  # check if everyone okay with ninja
         if ninja and reaction:
             self.play_ninja()
 
     def play_ninja(self):
-        tuple_list = []
+        self.ninja_active = True
+        card_agent_list = []
         for player in self.g.players:
-            tuple_list.append((player.cards[0], player.unique_id))
+            card_agent_list.append((player.cards[0], player.unique_id))
             player.remove_card()
-        tuple_list.sorted(key=lambda tup: tup[0], reverse=True)
-        print("tuple" + str(tuple_list))
-
+            self.cards_in_game -= 1
+        card_agent_list.sort(key=lambda tup: tup[0], reverse=True)
+        print("NINJA STAR PLAYED: " + str(card_agent_list))
+        i = 0
+        for item in card_agent_list:
+            agent = self.g.players[item[1]]
+            agent.ninja_list = card_agent_list
+            agent.set_ninja_speed(i)
+            i += 1
 
     def print_output(self, playing_agent):
         """

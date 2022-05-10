@@ -1,4 +1,5 @@
 import numpy.random as npr
+import numpy as np
 from mesa import Agent
 
 
@@ -23,9 +24,9 @@ class BasicAgent(Agent):
         self.ninja_list = []
         self.ninja_index = 100
         self.ninja_speed = 1
-        self.ninja_active = False
-        self.ninja_lower_threshold = 10
-        self.ninja_upper_threshold = 10
+        self.ninja_lower_threshold = 5
+        self.ninja_upper_threshold = 15
+        self.ninja_speed_interval = 0.1
 
     def order_cards(self):
         self.cards.sort()
@@ -44,11 +45,18 @@ class BasicAgent(Agent):
         """
         return self.find_avg_diff_cards() < self.ninja_lower_threshold
 
+    def set_ninja_speed(self, index):
+        self.ninja_index = index
+        speed_list = [1, 1-self.ninja_speed_interval, 1-2*self.ninja_speed_interval, 1-3*self.ninja_speed_interval]
+        self.ninja_speed = speed_list[index]
+        print("speed " + str(self.ninja_speed))
+        print("list " + str(self.ninja_list))
 
     def ninja_suggestion(self):
         """
         method to react to ninja suggestion by other player (agree if under upper threshold)
         """
+        print(self.find_avg_diff_cards())
         return self.find_avg_diff_cards() < self.ninja_upper_threshold
 
 
@@ -59,8 +67,10 @@ class BasicAgent(Agent):
         """
         method to find the average difference between the cards in the list
         """
-        if len(self.cards) != 0:
-            return sum(self.cards)/len(self.cards)
+        if len(self.cards) > 1:
+            arr = np.array(self.cards)
+            diff_list = np.diff(arr)
+            return sum(diff_list)/len(diff_list)
         else:
             return 100
 
@@ -69,6 +79,7 @@ class BasicAgent(Agent):
         """
         method to update internal variables if needed
         """
+        # if len(self.ninja_list) != 0 and self.cards[0]
         pass
 
     def get_active(self, i):
