@@ -81,8 +81,9 @@ class Round(Model):
                 if card < self.pile:
                     print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id)
                           + ") | " + str(self.pile) + " (pile)")
-                    player.shouldve_thrown(time)  # Player that was too late
-                    agent.wrong_throw(time)  # Agent that was too fast
+                    player.shouldve_thrown(time)    # Player that was too late
+
+                    agent.wrong_throw(time)         # Agent that was too fast
                     player.cards.remove(card)
                     mistake_checker += 1
             print("agent " + str(player.unique_id) + " | P: " + str(player.get_passive()))
