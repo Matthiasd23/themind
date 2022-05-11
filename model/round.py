@@ -27,6 +27,7 @@ class Round(Model):
             """
             player.cards = list(islice(card_listt, self.g.round_num))
             player.order_cards()  # order cards in ascending order
+            player.playing = True
         while self.cards_in_game > 0 and not self.g.lost:
             self.process_cards()
 
@@ -40,17 +41,19 @@ class Round(Model):
         for interval in range(1, self.max_interval):
             wait_list = []
             for player in self.g.players:
-                waiting_time = player.get_active(interval)
-                wait_list.append(waiting_time)
-            if min(wait_list) < self.threshold:
+                if player.is_playing(interval):
+                    waiting_time = player.get_active(interval)
+                    wait_list.append((player.unique_id, waiting_time))
+            wait_list.sort(key=lambda tup: tup[1]) # sort based on waiting time
+            if wait_list[0][1] < self.threshold:
                 # print("interval: " + str(interval))
                 time = interval
                 break
         """
         finding the playing agent by accessing the index of the waiting list with the lowest waiting
         """
-        var = wait_list.index(min(wait_list))
-        playing_agent = self.g.players[var]
+        print(wait_list)
+        playing_agent = self.g.players[wait_list[0][0]]
         played_card = playing_agent.cards[0]
         self.update_pile(played_card, playing_agent, time)
 

@@ -39,7 +39,7 @@ class SuperAgent(Agent):
         if len(self.cards) != 0:
             self.diff = self.cards[0] - self.model.present.pile
         else:
-            self. diff = 1000000
+            self.playing = False
 
     def update_vars(self, c, pile, time):
         """
@@ -95,6 +95,11 @@ class SuperAgent(Agent):
 
     def get_active(self, i):
         pass
+
+    def is_playing(self, i):
+        if i == 1:
+            self.determine_difference()
+        return self.playing
 
     def get_passive(self):
         return self.P

@@ -11,13 +11,6 @@ class Mathematician(SuperAgent):
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model, " (Mathematician)", 0)
 
-    def determine_difference(self):
-        self.playing = True
-        if len(self.cards) != 0:
-            self.diff = self.cards[0] - self.model.present.pile
-        else:
-            self.playing = False
-
     """
     Use probability formula: P = (count of favourable outcomes / total count of
     outcomes) ^ number of repeats
@@ -40,17 +33,14 @@ class Mathematician(SuperAgent):
         p_play = 0
         p_wait = 0
 
-        if i == 1 and self.playing:
+        if i == 1:
             p_play = self.calc_prob()
             print("agent: " + str(self.unique_id) + " play prob: " + str(p_play))
             p_wait = 1 - p_play
 
-        if self.playing:
-            choice = random.choices([play, wait], weights=(p_play, p_wait))
-            # certainty added to make sure the lowest card is played if two agents do decide to play at the same time
-            if choice[0] != 10000:
-                print("| interval: " + str(i))
-            certainty = 1 - self.diff / 100
-            return choice[0] - certainty
-        else:
-            return 1000000
+        choice = random.choices([play, wait], weights=(p_play, p_wait))
+        # certainty added to make sure the lowest card is played if two agents do decide to play at the same time
+        if choice[0] != 10000:
+            print("| interval: " + str(i))
+        certainty = 1 - self.diff / 100
+        return choice[0] - certainty

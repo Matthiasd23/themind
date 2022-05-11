@@ -16,7 +16,6 @@ class BasicAgent(SuperAgent):
         return the time the agent will wait with a little bit of deviation
         """
         if i == 1:
-            self.determine_difference()
             self.update_ninja()
         self.planned_interval = abs(npr.normal(self.diff * self.P, (
             self.diff) * self.std))  # NOT CHANGING THE STD DEVIATION because it goes both ways

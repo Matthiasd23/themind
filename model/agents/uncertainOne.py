@@ -15,7 +15,6 @@ class UncertainOne(SuperAgent):
         """
         The uncertain one has an adjusted deviation based on the time (interval) which makes him quite unpredictable
         """
-        self.determine_difference()
         # adjusted_diff = self.diff/(self.diff-i)
         adjusted_std = self.std * pow(1.01, i)
         self.planned_interval = abs(npr.normal(self.diff * self.P, self.diff * adjusted_std))

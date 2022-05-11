@@ -12,13 +12,6 @@ class Statistician(SuperAgent):
         super().__init__(unique_id, model, " (Statistician)", 0.25)
         self.repeats = 250
 
-    def determine_difference(self):
-        self.playing = True
-        if len(self.cards) != 0:
-            self.diff = self.cards[0] - self.model.present.pile
-        else:
-            self.playing = False
-
     def calc_interval(self):
         round = self.model.present
         list_smaller = []
@@ -47,4 +40,4 @@ class Statistician(SuperAgent):
             certainty = 1 - self.diff / 100
             return round.threshold - certainty
         else:
-            return 1000000
+            return 10000
