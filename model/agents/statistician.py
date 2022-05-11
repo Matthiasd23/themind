@@ -1,26 +1,16 @@
 import random
 
-from mesa import Agent
+from model.agents.superAgent import SuperAgent
 
 
-class Statistician(Agent):
+class Statistician(SuperAgent):
     """
     Agent that uses statistics to decide on playing
     """
 
     def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-        self.cards = []
-        self.diff = 0
-        self.playing = True
-        self.planned_interval = 200
-        self.type = " (Statistician)"
-        self.P = 1
+        super().__init__(unique_id, model, " (Statistician)", 0.25)
         self.repeats = 250
-        self.adaptability = 0.25
-
-    def order_cards(self):
-        self.cards.sort()
 
     def determine_difference(self):
         self.playing = True
@@ -28,13 +18,6 @@ class Statistician(Agent):
             self.diff = self.cards[0] - self.model.present.pile
         else:
             self.playing = False
-
-    """
-    method to update internal variables if needed
-    """
-
-    def update_vars(self, c, pile, time):
-        pass
 
     def calc_interval(self):
         round = self.model.present
@@ -65,28 +48,3 @@ class Statistician(Agent):
             return round.threshold - certainty
         else:
             return 1000000
-
-    def get_passive(self):
-        return self.P
-
-    def wrong_throw(self, card, pile):
-        """
-        The passive variable (P) is adjusted based on card that shouldve been played and the card that was (wrongfully) played
-        Multiplied by adaptability (0.5 / 50%)
-        The player should be be playing slower (higher P) because he threw too soon
-        """
-        self.P = self.P + ((1 - (card / pile)) * self.adaptability)
-        print("agent (early)" + str(self.unique_id) + " | card " + str(card) + " | pile " + str(pile))
-
-    def shouldve_thrown(self, played_interval):
-        """
-        The passive variable (P) is adjusted based on the interval that was played and the interval the agent planned to play
-        adjusting P to instead play the interval before the one that was actually played, multiplied by the adaptibility
-        The player should be be playing faster (lower P) because he threw too late
-        """
-        goal_interval = played_interval
-        self.P = self.P - ((1 - (goal_interval / self.planned_interval)) * self.adaptability)
-        print("agent (late) " + str(self.unique_id) + " | played_interval " + str(played_interval) + " | planned interval " + str(self.planned_interval))
-
-    def remove_card(self):
-        del self.cards[0]

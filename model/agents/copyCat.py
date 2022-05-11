@@ -1,41 +1,21 @@
 import numpy.random as npr
-from mesa import Agent
+from model.agents.superAgent import SuperAgent
 
 
-class CopyCat(Agent):
+class CopyCat(SuperAgent):
     """
     Copycat copies the other agents
     """
 
     def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-        self.cards = []
-        self.std = 0.05
-        self.diff = 0
-        self.type = " (CopyCat)"
+        super().__init__(unique_id, model, " (CopyCat)", 0)
         self.coeff = 1
         self.alpha = 0.0005
         self.beta = 0.0005               # volledig gebaseerd op self.alpha
-        # self.playing = True
-
-    def order_cards(self):
-        self.cards.sort()
-
-    def determine_difference(self):
-        if len(self.cards) != 0:
-            self.diff = self.cards[0] - self.model.present.pile
-            # self.diff = -(self.cards[0] - self.model.present.pile) -> check processing mistakes
-        else:
-            self.diff = 1000000
-            # self.playing = False
 
     def include_copied(self):
         # Adjusting the difference with a coefficient variable that is updated after a card is played
         self.diff *= self.coeff
-
-    """
-    method to update internal variables if needed
-    """
 
     def update_vars(self, c, pile, time):
         d = c - pile
@@ -56,15 +36,3 @@ class CopyCat(Agent):
         # self.include_passive()
         output = abs(npr.normal(self.diff, (self.diff) * self.std))
         return output - i
-
-    def get_passive(self):
-        pass
-
-    def wrong_throw(self, card, pile):
-        pass
-
-    def shouldve_thrown(self, played_interval):
-        pass
-
-    def remove_card(self):
-        del self.cards[0]

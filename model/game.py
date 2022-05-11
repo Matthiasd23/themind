@@ -2,11 +2,11 @@ import random
 
 from mesa import Model
 
-import model.agents.basicAgent as bA
-import model.agents.copyCat as cC
-import model.agents.statistician as s
-import model.agents.uncertainOne as uO
-import model.agents.mathematician as m
+from model.agents.basicAgent import BasicAgent
+from model.agents.copyCat import CopyCat
+from model.agents.statistician import Statistician
+from model.agents.uncertainOne import UncertainOne
+from model.agents.mathematician import Mathematician
 import model.round as round
 
 
@@ -34,10 +34,10 @@ class Game(Model):
     def init_players(self):
         self.num_players = random.choice([2, 3, 4])
         self.players = []
-        class_list = [bA.BasicAgent, uO.UncertainOne, s.Statistician, cC.CopyCat]
+        class_list = [BasicAgent, UncertainOne, Statistician, CopyCat]
         for i in range(self.num_players):
-            # current_class = random.choice(class_list)
-            current_class = class_list[0]
+            current_class = random.choice(class_list)
+            # current_class = class_list[0]
             agent = current_class(i, self)
             self.players.append(agent)
 

@@ -13,8 +13,8 @@ class SuperAgent(Agent):
         self.diff = 0
         self.std = 0.05
         self.P = 1
-        self.planned_interval = 0
-        # self.playing = True
+        self.planned_interval = 200
+        self.playing = True
 
         # ninja-star variables
         self.ninja_list = []
@@ -92,6 +92,9 @@ class SuperAgent(Agent):
             if self.ninja_index == -1:
                 print("STOP")
                 self.stop_ninja()
+
+    def get_active(self, i):
+        pass
 
     def get_passive(self):
         return self.P

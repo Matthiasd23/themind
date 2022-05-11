@@ -1,22 +1,15 @@
 import random
 
-from mesa import Agent
+from model.agents.superAgent import SuperAgent
 
 
-class Mathematician(Agent):
+class Mathematician(SuperAgent):
     """
     Agent that uses probability calculation to decide on playing
     """
 
     def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-        self.cards = []
-        self.diff = 0
-        self.playing = True
-        self.type = " (Mathematician)"
-
-    def order_cards(self):
-        self.cards.sort()
+        super().__init__(unique_id, model, " (Mathematician)", 0)
 
     def determine_difference(self):
         self.playing = True
@@ -24,13 +17,6 @@ class Mathematician(Agent):
             self.diff = self.cards[0] - self.model.present.pile
         else:
             self.playing = False
-
-    """
-    method to update internal variables if needed
-    """
-
-    def update_vars(self, c, pile, time):
-        pass
 
     """
     Use probability formula: P = (count of favourable outcomes / total count of
@@ -68,15 +54,3 @@ class Mathematician(Agent):
             return choice[0] - certainty
         else:
             return 1000000
-
-    def get_passive(self):
-        pass
-
-    def wrong_throw(self, card, pile):
-        pass
-
-    def shouldve_thrown(self, played_interval):
-        pass
-
-    def remove_card(self):
-        del self.cards[0]
