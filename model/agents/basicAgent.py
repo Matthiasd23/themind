@@ -22,10 +22,10 @@ class BasicAgent(Agent):
 
         # ninja-star variables
         self.ninja_list = []
-        self.ninja_index = 100
+        self.ninja_index = -1
         self.ninja_speed = 1
-        self.ninja_lower_threshold = 5
-        self.ninja_upper_threshold = 15
+        self.ninja_lower_threshold = 10
+        self.ninja_upper_threshold = 20
         self.ninja_speed_interval = 0.1
 
     def order_cards(self):
@@ -43,13 +43,13 @@ class BasicAgent(Agent):
         """
         method to either suggest a ninja star or not, the average difference in cards should be lower than the threshold
         """
-        return self.find_avg_diff_cards() < self.ninja_lower_threshold
+        return (self.find_avg_diff_cards() < self.ninja_lower_threshold) and len(self.cards) > 2
 
     def set_ninja_speed(self, index):
-        self.ninja_index = index
+        self.ninja_index = index-1
         speed_list = [1, 1-self.ninja_speed_interval, 1-2*self.ninja_speed_interval, 1-3*self.ninja_speed_interval]
         self.ninja_speed = speed_list[index]
-        print("speed " + str(self.ninja_speed))
+        print("agent: " + str(self.unique_id) + " speed " + str(self.ninja_speed))
         print("list " + str(self.ninja_list))
 
     def ninja_suggestion(self):
@@ -59,9 +59,21 @@ class BasicAgent(Agent):
         print(self.find_avg_diff_cards())
         return self.find_avg_diff_cards() < self.ninja_upper_threshold
 
+    def stop_ninja(self):
+        self.ninja_list = []
+        self.ninja_index = -1
+        self.ninja_speed = 1
 
     def update_ninja(self):
-        pass
+        if len(self.ninja_list) != 0 and len(self.cards) != 0 and self.ninja_index > -1 and self.cards[0] > self.ninja_list[self.ninja_index][0]:
+            print("lowest card: " + str(self.cards[0]) + " goal card: " + str(self.ninja_list[self.ninja_index][0]))
+            self.ninja_speed += self.ninja_speed_interval
+            print("agent: " + str(self.unique_id) + " speed: " + str(self.ninja_speed))
+            self.ninja_index -= 1
+            self.update_ninja()
+            if self.ninja_index == -1:
+                print("STOP")
+                self.stop_ninja()
 
     def find_avg_diff_cards(self):
         """
@@ -79,19 +91,18 @@ class BasicAgent(Agent):
         """
         method to update internal variables if needed
         """
-        # if len(self.ninja_list) != 0 and self.cards[0]
         pass
 
     def get_active(self, i):
         """
         return the time the agent will wait with a little bit of deviation
         """
-        if(i == 1):
+        if i == 1:
             self.determine_difference()
             self.update_ninja()
         self.planned_interval = abs(npr.normal(self.diff * self.P, (
             self.diff) * self.std))  # NOT CHANGING THE STD DEVIATION because it goes both ways
-        return self.planned_interval - i
+        return (self.planned_interval - i) * self.ninja_speed
 
     def get_passive(self):
         return self.P
