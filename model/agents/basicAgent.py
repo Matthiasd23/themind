@@ -117,3 +117,4 @@ class BasicAgent(Agent):
 
     def remove_card(self):
         del self.cards[0]
+        self.model.present.cards_in_game -= 1

@@ -65,7 +65,6 @@ class Round(Model):
         self.pile = card
         self.print_output(agent)
         agent.remove_card()
-        self.cards_in_game -= 1
 
         self.process_mistake(agent, time)  # handle possible mistakes
         """ninja addition"""
@@ -84,7 +83,7 @@ class Round(Model):
             for card in player.cards[:]:  # traverse copy of list to av
                 if card < self.pile:
                     print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id)
-                          + ") | " + str(self.pile) + " (pile)")
+                        + ") | " + str(self.pile) + " (pile)")
                     player.shouldve_thrown(time)  # Player that was too late
                     print(self.pile)
                     agent.wrong_throw(card, self.pile)  # Agent that was too fast
@@ -107,9 +106,9 @@ class Round(Model):
         reaction = True
         for player in self.g.players:
             if not ninja:
-                ninja = player.suggest_ninja()  # if someone wants to suggest ninja, dont look at the others
+                ninja = player.suggest_ninja()              # if someone wants to suggest ninja, dont look at the others
             if reaction:
-                reaction = player.ninja_suggestion()  # check if everyone okay with ninja
+                reaction = player.ninja_suggestion()        # check if everyone okay with ninja
         if ninja and reaction:
             self.play_ninja()
 
@@ -119,7 +118,6 @@ class Round(Model):
         for player in self.g.players:
             card_agent_list.append((player.cards[0], player.unique_id))
             player.remove_card()
-            self.cards_in_game -= 1
         card_agent_list.sort(key=lambda tup: tup[0], reverse=True)
         print("NINJA STAR PLAYED: " + str(card_agent_list))
         i = 0
@@ -128,6 +126,7 @@ class Round(Model):
             agent.ninja_list = card_agent_list
             agent.set_ninja_speed(i)
             i += 1
+
 
     def print_output(self, playing_agent):
         """
