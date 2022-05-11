@@ -19,13 +19,13 @@ class Round(Model):
         self.ninja_active = False
 
     def run_model(self):
+        """
+        method to run the round while game has not been lost
+        """
         random.shuffle(self.card_list)
         card_listt = iter(self.card_list)
         for player in self.g.players:
-            """
-            distribute the shuffled cards from the top up until how many cards are needed
-            """
-            player.cards = list(islice(card_listt, self.g.round_num))
+            player.cards = list(islice(card_listt, self.g.round_num))  # distribute the shuffled cards
             player.order_cards()  # order cards in ascending order
             player.playing = True
         while self.cards_in_game > 0 and not self.g.lost:
@@ -33,8 +33,8 @@ class Round(Model):
 
     def process_cards(self):
         """
-        Retrieve all waiting time of players and storing them in wait_list, find lowest and thus also the card that
-        is played When one of the waiting time is lower than the threshold, a card is played
+        method to retrieve all waiting time of players and store them in wait_list.
+        When one of the waiting time is lower than the threshold, a card is played
         """
         wait_list = []
         time = 1
@@ -44,7 +44,7 @@ class Round(Model):
                 if player.is_playing(interval):
                     waiting_time = player.get_active(interval)
                     wait_list.append((player.unique_id, waiting_time))
-            wait_list.sort(key=lambda tup: tup[1]) # sort based on waiting time
+            wait_list.sort(key=lambda tup: tup[1])  # sort based on waiting time
             if wait_list[0][1] < self.threshold:
                 # print("interval: " + str(interval))
                 time = interval
@@ -59,7 +59,7 @@ class Round(Model):
 
     def update_pile(self, card, agent, time):
         """
-        Updating the pile after a card is played, and updating agents if necessary
+        method to update the pile after a card is played, and update agents if necessary
         """
         # a card is played so the copycat agents are to be updated
         for player in self.g.players:
@@ -77,16 +77,16 @@ class Round(Model):
 
     def process_mistake(self, agent, time):
         """
-        If mistake has been made, remove cards that were supposed to be
-        played instead of current one and adjust lives + cards left
-        agent is the player that played the card
+        method to remove cards that were supposed to be
+        played instead of current one and adjust lives + cards left.
+        Agent is the player that played the card
         """
         mistake_checker = 0
         for player in self.g.players:
             for card in player.cards[:]:  # traverse copy of list to av
                 if card < self.pile:
                     print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id)
-                        + ") | " + str(self.pile) + " (pile)")
+                          + ") | " + str(self.pile) + " (pile)")
                     player.shouldve_thrown(time)  # Player that was too late
                     print(self.pile)
                     agent.wrong_throw(card, self.pile)  # Agent that was too fast
@@ -103,19 +103,25 @@ class Round(Model):
 
     def check_for_ninja(self):
         """
-        Checking if someone would like to do a ninjastar suggestion by looping through the agents and finding one that is lower than a certain threshold
+        method to check if someone would like to do a ninjastar suggestion by looping through the agents
+        and finding one that is lower than a certain threshold
         """
         ninja = False
         reaction = True
         for player in self.g.players:
             if not ninja:
-                ninja = player.suggest_ninja()              # if someone wants to suggest ninja, dont look at the others
+                ninja = player.suggest_ninja()  # if someone wants to suggest ninja, dont look at the others
             if reaction:
-                reaction = player.ninja_suggestion()        # check if everyone okay with ninja
+                reaction = player.ninja_suggestion()  # check if everyone okay with ninja
         if ninja and reaction:
             self.play_ninja()
 
     def play_ninja(self):
+        """
+        method to retrieve cards when ninja star is played
+        and allow players to initialize their adjusted playing speeds
+        based on the ninja star
+        """
         self.ninja_active = True
         card_agent_list = []
         for player in self.g.players:
@@ -130,10 +136,9 @@ class Round(Model):
             agent.set_ninja_speed(i)
             i += 1
 
-
     def print_output(self, playing_agent):
         """
-        Print some output for a clear overview of what is happening in the game
+        method to print some output for a clear overview of what is happening in the game
         """
         for player in self.g.players:
             print("Cards agent " + str(player.unique_id) + player.type + ": " + str(player.cards))

@@ -1,4 +1,5 @@
 import numpy.random as npr
+
 from model.agents.superAgent import SuperAgent
 
 
@@ -11,7 +12,7 @@ class CopyCat(SuperAgent):
         super().__init__(unique_id, model, " (CopyCat)", 0)
         self.coeff = 1
         self.alpha = 0.0005
-        self.beta = 0.0005               # volledig gebaseerd op self.alpha
+        self.beta = 0.0005  # volledig gebaseerd op self.alpha
 
     def include_copied(self):
         # Adjusting the difference with a coefficient variable that is updated after a card is played
@@ -23,12 +24,11 @@ class CopyCat(SuperAgent):
         self.coeff = self.coeff + (time + self.model.present.threshold - d) * self.beta
         # print("coeff: " + str(self.coeff))
 
-    """
-    return the time the agent will wait with a little bit of deviation
-    Also looks at the other players actions and adjusts its speed according to their actions
-    """
-
     def get_active(self, i):
+        """
+        method to return the time the agent will wait with a little bit of deviation
+        Also looks at the other players actions and adjusts its speed according to their actions
+        """
         self.beta = self.alpha * self.model.present.cards_in_game
         # Bij welke interval wordt gespeeld? En wat is de difference?
         self.include_copied()

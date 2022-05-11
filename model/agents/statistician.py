@@ -10,9 +10,13 @@ class Statistician(SuperAgent):
 
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model, " (Statistician)", 0.25)
-        self.repeats = 250
+        self.repeats = 250  # no. of simulations
 
     def calc_interval(self):
+        """
+        method to calculate the interval to play in based on a number of
+        simulations
+        """
         round = self.model.present
         list_smaller = []
         total = list(range(0, 101))
@@ -37,7 +41,7 @@ class Statistician(SuperAgent):
                 self.calc_interval()
 
         if i == self.planned_interval:
-            certainty = 1 - self.diff / 100
+            certainty = 1 - self.diff / 100  # slight differentation to avoid identical waiting times
             return round.threshold - certainty
         else:
             return 10000
