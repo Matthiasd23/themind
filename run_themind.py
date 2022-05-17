@@ -1,7 +1,7 @@
 import sys
 import os
 
-import model.game as game
+from model.game import Game
 
-current_game = game.Game()
+current_game = Game()
 current_game.run_model()

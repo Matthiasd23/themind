@@ -14,7 +14,6 @@ class Round(Model):
         self.card_list = list(range(1, 101))
         self.cards_in_game = g.num_players * g.round_num
         self.pile = 0  # card on top of the pile (last card that was played)
-        self.max_interval = 101
         self.threshold = 1
         self.ninja_active = False
 
@@ -38,7 +37,7 @@ class Round(Model):
         """
         wait_list = []
         time = 1
-        for interval in range(1, self.max_interval):
+        for interval in range(1, 101):
             wait_list = []
             for player in self.g.players:
                 if player.is_playing(interval):
@@ -71,7 +70,7 @@ class Round(Model):
 
         self.process_mistake(agent, time)  # handle possible mistakes
         """ninja addition"""
-        if not self.ninja_active:
+        if not self.ninja_active and self.g.num_shuriken > 0:
             self.check_for_ninja()
         print(" ")
 
@@ -83,19 +82,17 @@ class Round(Model):
         """
         mistake_checker = 0
         for player in self.g.players:
-            for card in player.cards[:]:  # traverse copy of list to av
+            for card in player.cards[:]:  # traverse copy of list
                 if card < self.pile:
                     print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id)
                           + ") | " + str(self.pile) + " (pile)")
-                    player.shouldve_thrown(time)  # Player that was too late
-                    print(self.pile)
-                    agent.wrong_throw(card, self.pile)  # Agent that was too fast
-                    player.cards.remove(card)
+                    player.shouldve_thrown(time)            # Player that was too late
+                    agent.wrong_throw(card, self.pile)      # Agent that was too fast
+                    player.remove_card()
                     mistake_checker += 1
 
         # if mistake has been made
         if mistake_checker > 0:
-            self.cards_in_game -= mistake_checker  # adjust the number of cards left in game
             self.g.num_lives -= 1
             print("Lives left: " + str(self.g.num_lives))
             if self.g.num_lives == 0:
@@ -123,6 +120,7 @@ class Round(Model):
         based on the ninja star
         """
         self.ninja_active = True
+        self.g.num_shuriken -= 1
         card_agent_list = []
         for player in self.g.players:
             card_agent_list.append((player.cards[0], player.unique_id))

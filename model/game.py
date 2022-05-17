@@ -20,6 +20,7 @@ class Game(Model):
         self.players = []
         self.init_players()
         self.num_lives = self.num_players
+        self.num_shuriken = 1
         self.init_rounds()
         self.round_num = 1
         self.present = round.Round(self)
@@ -56,10 +57,10 @@ class Game(Model):
             self.present.run_model()
             self.round_num += 1
             if self.round_num == 4 or self.round_num == 7 or self.round_num == 10:
-                self.num_lives = self.num_lives + 1
-        if not self.lost:
-            self.end_game()
-            # Stars at the completion of level 2, level 5 and level 8
+                self.num_lives += 1
+            if self.round_num == 3 or self.round_num == 6 or self.round_num == 9:
+                self.num_shuriken += 1
+        self.end_game()
 
     def start_game(self):
         """
@@ -72,8 +73,10 @@ class Game(Model):
         """
         method to print information when ending game
         """
-        if self.num_lives == 0:
-            print("\nEND GAME: LOST | Reached: round " + str(self.round_num) + " of " + str(self.num_rounds))
-        else:
-            print("\nEND GAME: WON | Lives left: " + str(self.num_lives))
-        self.lost = True
+        if not self.lost:
+            if self.num_lives == 0:
+                print("\nEND GAME: LOST | Reached: round " + str(self.round_num) + " of " + str(self.num_rounds)
+                      + " | Shuriken left: " + str(self.num_shuriken))
+            else:
+                print("\nEND GAME: WON | Lives left: " + str(self.num_lives) + " | Shuriken left: " + str(self.num_shuriken))
+            self.lost = True
