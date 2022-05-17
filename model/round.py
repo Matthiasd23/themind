@@ -51,7 +51,7 @@ class Round(Model):
         """
         finding the playing agent by accessing the index of the waiting list with the lowest waiting
         """
-        print(wait_list)
+        # print(wait_list)
         playing_agent = self.g.players[wait_list[0][0]]
         played_card = playing_agent.cards[0]
         self.update_pile(played_card, playing_agent, time)
@@ -107,9 +107,9 @@ class Round(Model):
         reaction = True
         for player in self.g.players:
             if not ninja:
-                ninja = player.suggest_ninja()  # if someone wants to suggest ninja, dont look at the others
+                ninja = player.suggest_ninja()          # if someone wants to suggest ninja, dont look at the others. Returns a Boolean value
             if reaction:
-                reaction = player.ninja_suggestion()  # check if everyone okay with ninja
+                reaction = player.ninja_suggestion()    # check if everyone okay with ninja, Returns a Boolean value
         if ninja and reaction:
             self.play_ninja()
 

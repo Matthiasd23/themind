@@ -31,6 +31,7 @@ class CopyCat(SuperAgent):
         """
         self.beta = self.alpha * self.model.present.cards_in_game
         # Bij welke interval wordt gespeeld? En wat is de difference?
+        self.determine_difference()
         self.include_copied()
         # self.include_passive()
         output = abs(npr.normal(self.diff, (self.diff) * self.std))

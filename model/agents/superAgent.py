@@ -41,6 +41,8 @@ class SuperAgent(Agent):
         """
         del self.cards[0]
         self.model.present.cards_in_game -= 1
+        if self.model.present.ninja_active:
+            self.update_ninja()
 
     def determine_difference(self):
         """
