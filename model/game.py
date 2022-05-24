@@ -78,5 +78,6 @@ class Game(Model):
                 print("\nEND GAME: LOST | Reached: round " + str(self.round_num) + " of " + str(self.num_rounds)
                       + " | Shuriken left: " + str(self.num_shuriken))
             else:
-                print("\nEND GAME: WON | Lives left: " + str(self.num_lives) + " | Shuriken left: " + str(self.num_shuriken))
+                print("\nEND GAME: WON | Lives left: " + str(self.num_lives) + " | Shuriken left: " + str(
+                    self.num_shuriken))
             self.lost = True

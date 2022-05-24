@@ -41,7 +41,7 @@ class Statistician(SuperAgent):
                 self.calc_interval()
 
         if i == self.planned_interval:
-            certainty = 1 - self.diff*2 / 100  # slight differentation to avoid identical waiting times
+            certainty = 1 - self.diff * 2 / 100  # slight differentation to avoid identical waiting times
             print("diff: " + str(self.diff) + " | certainty: " + str(certainty))
             return round.threshold - certainty
         else:
