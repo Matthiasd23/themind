@@ -1,3 +1,5 @@
+import random
+
 import numpy as np
 from mesa import Agent
 
@@ -12,10 +14,11 @@ class SuperAgent(Agent):
         # general variables
         self.cards = []
         self.diff = 0
-        self.std = 0.05
+        self.std = 0.1
         self.P = 1
         self.planned_interval = 200
         self.playing = True
+        self.counting_speed = random.uniform(0.8, 1.2)
 
         # ninja-star variables
         self.ninja_list = []
@@ -124,6 +127,10 @@ class SuperAgent(Agent):
         unique method for every agent for their main tactic
         """
         pass
+
+    def last_one_standing(self):
+        cards_in_play = self.model.present.cards_in_game - len(self.cards)
+        return cards_in_play == 0
 
     def is_playing(self, i):
         """

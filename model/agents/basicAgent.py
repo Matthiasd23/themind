@@ -16,6 +16,9 @@ class BasicAgent(SuperAgent):
         """
         return the time the agent will wait with a little bit of deviation
         """
+        if self.last_one_standing():
+            return 0
+
         if i == 1:
             self.update_ninja()
         self.planned_interval = abs(npr.normal(self.diff * self.P, (

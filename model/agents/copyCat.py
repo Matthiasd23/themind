@@ -11,25 +11,26 @@ class CopyCat(SuperAgent):
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model, " (CopyCat)", 0)
         self.coeff = 1
-        self.alpha = 0.0005
-        self.beta = 0.0005  # volledig gebaseerd op self.alpha
+        self.avg_counter = 0
 
     def include_copied(self):
         # Adjusting the difference with a coefficient variable that is updated after a card is played
         self.diff *= self.coeff
 
     def update_vars(self, c, pile, time):
-        d = c - pile
-        # d = d * self.coeff
-        self.coeff = self.coeff + (time + self.model.present.threshold - d) * self.beta
-        # print("coeff: " + str(self.coeff))
+        if c > pile:
+            self.avg_counter += 1
+            d = time / (c-pile)
+            self.coeff = (self.coeff * self.avg_counter + d) / (self.avg_counter + 1)
 
     def get_active(self, i):
         """
         method to return the time the agent will wait with a little bit of deviation
         Also looks at the other players actions and adjusts its speed according to their actions
         """
-        self.beta = self.alpha * self.model.present.cards_in_game
+        if self.last_one_standing():
+            return 0
+
         # Bij welke interval wordt gespeeld? En wat is de difference?
         self.determine_difference()
         self.include_copied()

@@ -27,6 +27,9 @@ class Mathematician(SuperAgent):
         return pow((fav_outcome / total_outcome), repeats)
 
     def get_active(self, i):
+        if self.last_one_standing():
+            return 0
+
         self.determine_difference()
         play = self.model.present.threshold
         wait = 10000
@@ -35,12 +38,9 @@ class Mathematician(SuperAgent):
 
         if i == 1:
             p_play = self.calc_prob()
-            print("agent: " + str(self.unique_id) + " play prob: " + str(p_play))
             p_wait = 1 - p_play
 
         choice = random.choices([play, wait], weights=(p_play, p_wait))
         # certainty added to make sure the lowest card is played if two agents do decide to play at the same time
-        if choice[0] != 10000:
-            print("| interval: " + str(i))
         certainty = 1 - self.diff / 100
         return choice[0] - certainty

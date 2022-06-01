@@ -72,7 +72,7 @@ class Round(Model):
         """ninja addition"""
         if not self.ninja_active and self.g.num_shuriken > 0:
             self.check_for_ninja()
-        print(" ")
+        # print(" ")
 
     def process_mistake(self, agent, time):
         """
@@ -126,7 +126,7 @@ class Round(Model):
             card_agent_list.append((player.cards[0], player.unique_id))
             player.remove_card()
         card_agent_list.sort(key=lambda tup: tup[0], reverse=True) # sort list based on cards, descending order
-        print("NINJA STAR PLAYED: " + str(card_agent_list))
+        # print("NINJA STAR PLAYED: " + str(card_agent_list))
         i = 0
         for item in card_agent_list:
             agent = self.g.players[item[1]]
