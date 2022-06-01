@@ -18,9 +18,10 @@ class Statistician(SuperAgent):
         simulations
         """
         round = self.model.present
-        list_smaller = []
+        smaller_count = 0
         total = list(range(0, 101))
         remove = list(range(0, round.pile + 1)) + self.cards  # cards not part of population
+        cards_in_play = round.cards_in_game - len(self.cards)
         population = [i for i in total if i not in remove]  # removing cards
         if len(population) != 0:
             for i in range(1, self.repeats):
@@ -31,9 +32,10 @@ class Statistician(SuperAgent):
                     if c < self.cards[0]:              # de kernvraag (Contributie door Lucas), "is er een kaart die lager is"
                         smaller_count += 1
 
-        p = len(list_smaller) / self.repeats  # chance of smaller card occurring
+        p = smaller_count / (self.repeats*cards_in_play)  # chance of smaller card occurring
         # Adding the passive scaling the interval
-        self.planned_interval = int(p * (100 - round.pile) * self.P) + 1  # conversion to interval to wait for
+        self.planned_interval = int(p * (100 - round.pile) * self.P * self.counting_speed) + 1  # conversion to interval to wait for (+1) shou
+        #print("diff: " + str(self.diff) + " | planned interval: " + str(self.planned_interval))
 
     def get_active(self, i):
         if self.last_one_standing():

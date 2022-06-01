@@ -26,6 +26,7 @@ class Game(Model):
         self.round_num = 1
         self.present = round.Round(self)
         self.lost = False
+        self.won = False
 
     def init_players(self):
         """

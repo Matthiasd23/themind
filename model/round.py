@@ -65,7 +65,7 @@ class Round(Model):
             if not player == agent:
                 player.update_vars(card, self.pile, time)
         self.pile = card
-        self.print_output(agent)
+        #self.print_output(agent)
         agent.remove_card()
 
         self.process_mistake(agent, time)  # handle possible mistakes
@@ -84,8 +84,7 @@ class Round(Model):
         for player in self.g.players:
             for card in player.cards[:]:  # traverse copy of list
                 if card < self.pile:
-                    print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id)
-                          + ") | " + str(self.pile) + " (pile)")
+                    #print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id) + ") | " + str(self.pile) + " (pile)")
                     player.shouldve_thrown(time)  # Player that was too late
                     agent.wrong_throw(card, self.pile)  # Agent that was too fast
                     player.remove_card()
@@ -94,7 +93,7 @@ class Round(Model):
         # if mistake has been made
         if mistake_checker > 0:
             self.g.num_lives -= 1
-            print("Lives left: " + str(self.g.num_lives))
+            #print("Lives left: " + str(self.g.num_lives))
             if self.g.num_lives == 0:
                 self.g.end_game()
 

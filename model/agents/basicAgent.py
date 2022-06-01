@@ -23,4 +23,4 @@ class BasicAgent(SuperAgent):
             self.update_ninja()
         self.planned_interval = abs(npr.normal(self.diff * self.P, (
             self.diff) * self.std))  # NOT CHANGING THE STD DEVIATION because it goes both ways
-        return (self.planned_interval - i) * self.ninja_speed
+        return (self.planned_interval * self.counting_speed - i) * self.ninja_speed # -i om de threshold te halen
