@@ -24,9 +24,10 @@ class SuperAgent(Agent):
         self.ninja_list = []
         self.ninja_index = -1
         self.ninja_speed = 1
-        self.ninja_lower_threshold = 10
-        self.ninja_upper_threshold = 20
+        self.ninja_lower_threshold = 7
+        self.ninja_upper_threshold = 15
         self.ninja_speed_interval = 0.1
+        self.std_interval = 0.025
 
         # variable variables
         self.type = Type
@@ -78,12 +79,14 @@ class SuperAgent(Agent):
         """
         method to either suggest a ninja star or not, the average difference in cards should be lower than the threshold
         """
+        self.ninja_lower_threshold = self.model.ninja_lower
         return (self.find_avg_diff_cards() < self.ninja_lower_threshold) and len(self.cards) > 4
 
     def ninja_suggestion(self):
         """
         method to react to ninja suggestion by other player (agree if under upper threshold)
         """
+        self.ninja_upper_threshold = self.model.ninja_upper
         return self.find_avg_diff_cards() < self.ninja_upper_threshold
 
     def set_ninja_speed(self, index):
@@ -94,8 +97,12 @@ class SuperAgent(Agent):
         """
         self.ninja_index = index - 1
         x = self.ninja_speed_interval
-        speed_list = [1, 1 - x, 1 - 2 * x, 1 - 3 * x]  # std list: [1, 0.9, 0.8, 0.7]
+        speed_list = [1, 1 - x, 1 - 2 * x, 1 - 3 * x]  # standard list: [1, 0.9, 0.8, 0.7]
         self.ninja_speed = speed_list[index]
+
+        # x = self.std_interval
+        # std_list = [0.1, 0.1 - x, 0.1 - 2 * x, 0.1 - 3 * x]
+        # self.std = std_list[index]
         self.update_ninja()
 
     def stop_ninja(self):
@@ -105,6 +112,7 @@ class SuperAgent(Agent):
         self.ninja_list = []
         self.ninja_index = -1
         self.ninja_speed = 1
+        # self.std = 0.1
 
     def update_ninja(self):
         """
@@ -116,6 +124,7 @@ class SuperAgent(Agent):
                 self.ninja_list[self.ninja_index][0]:
             # print("lowest card: " + str(self.cards[0]) + " goal card: " + str(self.ninja_list[self.ninja_index][0]))
             self.ninja_speed += self.ninja_speed_interval
+            # self.std += self.std_interval
             # print("agent: " + str(self.unique_id) + " speed: " + str(self.ninja_speed))
             self.ninja_index -= 1  # move one index to left; play slower
             self.update_ninja()  # recursive call in case card is higher than multiple cards from ninja_list

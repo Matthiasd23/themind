@@ -15,7 +15,7 @@ class Game(Model):
     Model in which the game is played, coordinating the different rounds
     """
 
-    def __init__(self):
+    def __init__(self, lower, upper):
         self.num_players = None
         self.num_rounds = None
         self.players = []
@@ -28,6 +28,9 @@ class Game(Model):
         self.lost = False
         self.won = False
 
+        self.ninja_lower = lower
+        self.ninja_upper = upper
+
     def init_players(self):
         """
         method to initialize the players, different possibilities
@@ -37,8 +40,8 @@ class Game(Model):
         self.players = []
         class_list = [BasicAgent, UncertainOne, Statistician, CopyCat]
         for i in range(self.num_players):
-            current_class = random.choice(class_list)
-            # current_class = class_list[2]
+            #current_class = random.choice(class_list)
+            current_class = class_list[0]
             agent = current_class(i, self)
             self.players.append(agent)
 
