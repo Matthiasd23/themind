@@ -40,8 +40,8 @@ class Game(Model):
         self.players = []
         class_list = [BasicAgent, UncertainOne, Statistician, CopyCat]
         for i in range(self.num_players):
-            #current_class = random.choice(class_list)
-            current_class = class_list[0]
+            current_class = random.choice(class_list)
+            # current_class = class_list[0]
             agent = current_class(i, self)
             self.players.append(agent)
 

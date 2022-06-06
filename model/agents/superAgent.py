@@ -16,7 +16,7 @@ class SuperAgent(Agent):
         self.diff = 0
         self.std = 0.1
         self.P = 1
-        self.planned_interval = 200
+        self.planned_interval = 200  # high number to avoid unwanted playing
         self.playing = True
         self.counting_speed = random.uniform(0.8, 1.2)
 
@@ -102,7 +102,7 @@ class SuperAgent(Agent):
 
         # x = self.std_interval
         # std_list = [0.1, 0.1 - x, 0.1 - 2 * x, 0.1 - 3 * x]
-        # self.std = std_list[index]
+        self.std = 0
         self.update_ninja()
 
     def stop_ninja(self):
@@ -112,7 +112,7 @@ class SuperAgent(Agent):
         self.ninja_list = []
         self.ninja_index = -1
         self.ninja_speed = 1
-        # self.std = 0.1
+        self.std = 0.1
 
     def update_ninja(self):
         """
@@ -124,7 +124,6 @@ class SuperAgent(Agent):
                 self.ninja_list[self.ninja_index][0]:
             # print("lowest card: " + str(self.cards[0]) + " goal card: " + str(self.ninja_list[self.ninja_index][0]))
             self.ninja_speed += self.ninja_speed_interval
-            # self.std += self.std_interval
             # print("agent: " + str(self.unique_id) + " speed: " + str(self.ninja_speed))
             self.ninja_index -= 1  # move one index to left; play slower
             self.update_ninja()  # recursive call in case card is higher than multiple cards from ninja_list
@@ -149,7 +148,7 @@ class SuperAgent(Agent):
             self.determine_difference()
         return self.playing
 
-    def get_passive(self):
+    def get_passive(self):  # wordt niet gebruikt?
         """
         method to return value P representing passive tactic
         """
