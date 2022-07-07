@@ -78,14 +78,12 @@ class SuperAgent(Agent):
         """
         method to either suggest a ninja star or not, the average difference in cards should be lower than the threshold
         """
-        self.ninja_lower_threshold = self.model.ninja_lower
         return (self.find_avg_diff_cards() < self.ninja_lower_threshold) and len(self.cards) > 4
 
     def ninja_suggestion(self):
         """
         method to react to ninja suggestion by other player (agree if under upper threshold)
         """
-        self.ninja_upper_threshold = self.model.ninja_upper
         return self.find_avg_diff_cards() < self.ninja_upper_threshold
 
     def set_ninja_speed(self, index):

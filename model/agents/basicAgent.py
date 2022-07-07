@@ -21,6 +21,5 @@ class BasicAgent(SuperAgent):
 
         if i == 1: # dit nodig? volgens mij wel ja, voor de eerste
             self.update_ninja()
-        self.planned_interval = abs(npr.normal(self.diff * self.P, (
-            self.diff) * self.std))  # NOT CHANGING THE STD DEVIATION because it goes both ways
+        self.planned_interval = abs(npr.normal(self.diff * self.P, self.std))
         return (self.planned_interval * self.counting_speed - i) * self.ninja_speed # -i om de threshold te halen
