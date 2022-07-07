@@ -45,13 +45,11 @@ class Round(Model):
                     wait_list.append((player.unique_id, waiting_time))
             wait_list.sort(key=lambda tup: tup[1])  # sort based on waiting time
             if wait_list[0][1] < self.threshold:
-                # print("interval: " + str(interval))
                 time = interval
                 break
         """
         finding the playing agent by accessing the index of the waiting list with the lowest waiting
         """
-        # print(wait_list)
         playing_agent = self.g.players[wait_list[0][0]]
         played_card = playing_agent.cards[0]
         self.update_pile(played_card, playing_agent, time)
@@ -65,14 +63,14 @@ class Round(Model):
             if not player == agent:
                 player.update_vars(card, self.pile, time)
         self.pile = card
-        #self.print_output(agent)
+        self.print_output(agent, time)
         agent.remove_card()
 
         self.process_mistake(agent, time)  # handle possible mistakes
         """ninja addition"""
         if not self.ninja_active and self.g.num_shuriken > 0:
             self.check_for_ninja()
-        # print(" ")
+        print(" ")
 
     def process_mistake(self, agent, time):
         """
@@ -84,7 +82,10 @@ class Round(Model):
         for player in self.g.players:
             for card in player.cards[:]:  # traverse copy of list
                 if card < self.pile:
-                    #print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id) + ") | " + str(self.pile) + " (pile)")
+                    if agent.ninja_speed != 1:
+                        self.g.shuriken_mistake += 1
+                    print("MISTAKE - " + str(card) + " (agent " + str(player.unique_id) + ") | " + str(
+                        self.pile) + " (pile) of agent " + str(agent.unique_id))
                     player.shouldve_thrown(time)  # Player that was too late
                     agent.wrong_throw(card, self.pile)  # Agent that was too fast
                     player.remove_card()
@@ -93,7 +94,7 @@ class Round(Model):
         # if mistake has been made
         if mistake_checker > 0:
             self.g.num_lives -= 1
-            #print("Lives left: " + str(self.g.num_lives))
+            print("Lives left: " + str(self.g.num_lives))
             if self.g.num_lives == 0:
                 self.g.end_game()
 
@@ -125,7 +126,7 @@ class Round(Model):
             card_agent_list.append((player.cards[0], player.unique_id))
             player.remove_card()
         card_agent_list.sort(key=lambda tup: tup[0], reverse=True) # sort list based on cards, descending order
-        # print("NINJA STAR PLAYED: " + str(card_agent_list))
+        print("NINJA STAR PLAYED: " + str(card_agent_list))
         i = 0
         for item in card_agent_list:
             agent = self.g.players[item[1]]
@@ -133,12 +134,12 @@ class Round(Model):
             agent.set_ninja_speed(i)
             i += 1
 
-    def print_output(self, playing_agent):
+    def print_output(self, playing_agent, time):
         """
         method to print some output for a clear overview of what is happening in the game
         """
         for player in self.g.players:
             print("Cards agent " + str(player.unique_id) + player.type + ": " + str(player.cards))
         print("---------------------------\n"
-              + "Card played: " + str(self.pile) + " by agent " + str(playing_agent.unique_id)
+              + "Card played: " + str(self.pile) + " by agent " + str(playing_agent.unique_id) + " | interval " + str(time)
               + "\n---------------------------")

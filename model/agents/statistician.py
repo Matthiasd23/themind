@@ -34,7 +34,7 @@ class Statistician(SuperAgent):
 
         p = smaller_count / (self.repeats*cards_in_play)  # chance of smaller card occurring
         # Adding the passive scaling the interval
-        self.planned_interval = int(p * (100 - round.pile) * self.P * self.counting_speed) + 1  # conversion to interval to wait for (+1) shou
+        self.planned_interval = int(p * (100 - round.pile) * self.P * self.counting_speed * self.ninja_speed) + 1  # conversion to interval to wait for (+1) shou
         #print("diff: " + str(self.diff) + " | planned interval: " + str(self.planned_interval))
 
     def get_active(self, i):

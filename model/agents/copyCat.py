@@ -35,5 +35,5 @@ class CopyCat(SuperAgent):
         self.determine_difference()
         self.include_copied()
         # self.include_passive()
-        self.planned_interval = abs(npr.normal(self.diff, self.diff * self.std))
-        return (self.planned_interval * self.counting_speed) - i
+        self.planned_interval = abs(npr.normal(self.diff, self.std))
+        return ((self.planned_interval * self.counting_speed) - i) * self.ninja_speed

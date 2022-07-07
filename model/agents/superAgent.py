@@ -24,10 +24,9 @@ class SuperAgent(Agent):
         self.ninja_list = []
         self.ninja_index = -1
         self.ninja_speed = 1
-        self.ninja_lower_threshold = 7
-        self.ninja_upper_threshold = 15
-        self.ninja_speed_interval = 0.1
-        self.std_interval = 0.025
+        self.ninja_lower_threshold = 14
+        self.ninja_upper_threshold = 18
+        self.ninja_speed_interval = 0.25
 
         # variable variables
         self.type = Type
@@ -100,9 +99,6 @@ class SuperAgent(Agent):
         speed_list = [1, 1 - x, 1 - 2 * x, 1 - 3 * x]  # standard list: [1, 0.9, 0.8, 0.7]
         self.ninja_speed = speed_list[index]
 
-        # x = self.std_interval
-        # std_list = [0.1, 0.1 - x, 0.1 - 2 * x, 0.1 - 3 * x]
-        self.std = 0
         self.update_ninja()
 
     def stop_ninja(self):
@@ -112,7 +108,6 @@ class SuperAgent(Agent):
         self.ninja_list = []
         self.ninja_index = -1
         self.ninja_speed = 1
-        self.std = 0.1
 
     def update_ninja(self):
         """
@@ -122,9 +117,7 @@ class SuperAgent(Agent):
         """
         if len(self.ninja_list) != 0 and len(self.cards) != 0 and self.ninja_index > -1 and self.cards[0] > \
                 self.ninja_list[self.ninja_index][0]:
-            # print("lowest card: " + str(self.cards[0]) + " goal card: " + str(self.ninja_list[self.ninja_index][0]))
             self.ninja_speed += self.ninja_speed_interval
-            # print("agent: " + str(self.unique_id) + " speed: " + str(self.ninja_speed))
             self.ninja_index -= 1  # move one index to left; play slower
             self.update_ninja()  # recursive call in case card is higher than multiple cards from ninja_list
         if self.ninja_index == -1:
@@ -147,12 +140,6 @@ class SuperAgent(Agent):
         if i == 1:
             self.determine_difference()
         return self.playing
-
-    def get_passive(self):  # wordt niet gebruikt?
-        """
-        method to return value P representing passive tactic
-        """
-        return self.P
 
     def wrong_throw(self, card, pile):
         """
