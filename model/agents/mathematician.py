@@ -19,7 +19,7 @@ class Mathematician(SuperAgent):
 
     def calc_prob(self):
         round = self.model.present
-        total_outcome = 100 - round.pile - len(self.cards)  # possible cards (higher than pile, not in own
+        total_outcome = 100 - round.pile - len(self.cards)  # possible cards (higher than pile, not in own hand)
         fav_outcome = 100 - self.cards[0] - (len(self.cards) - 1)  # possible cards higher than own lowest
         repeats = 1
         if round.cards_in_game - len(self.cards) > 0:

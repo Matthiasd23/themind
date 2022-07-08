@@ -31,9 +31,7 @@ class CopyCat(SuperAgent):
         if self.last_one_standing():
             return 0
 
-        # Bij welke interval wordt gespeeld? En wat is de difference?
         self.determine_difference()
         self.include_copied()
-        # self.include_passive()
         self.planned_interval = abs(npr.normal(self.diff, self.std))
         return ((self.planned_interval * self.counting_speed) - i) * self.ninja_speed

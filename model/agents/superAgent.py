@@ -94,7 +94,7 @@ class SuperAgent(Agent):
         """
         self.ninja_index = index - 1
         x = self.ninja_speed_interval
-        speed_list = [1, 1 - x, 1 - 2 * x, 1 - 3 * x]  # standard list: [1, 0.9, 0.8, 0.7]
+        speed_list = [1, 1 - x, 1 - 2 * x, 1 - 3 * x]  # standard list: [1, 0.75, 0.5, 0.25]
         self.ninja_speed = speed_list[index]
 
         self.update_ninja()
