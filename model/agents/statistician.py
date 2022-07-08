@@ -26,16 +26,17 @@ class Statistician(SuperAgent):
         if len(population) != 0:
             for i in range(1, self.repeats):
                 X = random.sample(population, cards_in_play)
-                #random.shuffle(population)
-                #X = population[0:cards_in_play+1]
+                # random.shuffle(population)
+                # X = population[0:cards_in_play+1]
                 for c in X:
-                    if c < self.cards[0]:              # de kernvraag (Contributie door Lucas), "is er een kaart die lager is"
+                    if c < self.cards[0]:  # de kernvraag (Contributie door Lucas), "is er een kaart die lager is"
                         smaller_count += 1
 
-        p = smaller_count / (self.repeats*cards_in_play)  # chance of smaller card occurring
+        p = smaller_count / (self.repeats * cards_in_play)  # chance of smaller card occurring
         # Adding the passive scaling the interval
-        self.planned_interval = int(p * (100 - round.pile) * self.P * self.counting_speed * self.ninja_speed) + 1  # conversion to interval to wait for (+1) shou
-        #print("diff: " + str(self.diff) + " | planned interval: " + str(self.planned_interval))
+        self.planned_interval = int(p * (
+                    100 - round.pile) * self.P * self.counting_speed * self.ninja_speed) + 1  # conversion to interval to wait for (+1) shou
+        # print("diff: " + str(self.diff) + " | planned interval: " + str(self.planned_interval))
 
     def get_active(self, i):
         if self.last_one_standing():

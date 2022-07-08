@@ -20,7 +20,7 @@ class CopyCat(SuperAgent):
     def update_vars(self, c, pile, time):
         if c > pile:
             self.avg_counter += 1
-            d = time / (c-pile)
+            d = time / (c - pile)
             self.coeff = (self.coeff * self.avg_counter + d) / (self.avg_counter + 1)
 
     def get_active(self, i):

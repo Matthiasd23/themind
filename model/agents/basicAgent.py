@@ -19,7 +19,7 @@ class BasicAgent(SuperAgent):
         if self.last_one_standing():
             return 0
 
-        if i == 1: # dit nodig? volgens mij wel ja, voor de eerste
+        if i == 1:  # dit nodig? volgens mij wel ja, voor de eerste
             self.update_ninja()
         self.planned_interval = abs(npr.normal(self.diff * self.P, self.std))
-        return (self.planned_interval * self.counting_speed - i) * self.ninja_speed # -i om de threshold te halen
+        return (self.planned_interval * self.counting_speed - i) * self.ninja_speed  # -i om de threshold te halen

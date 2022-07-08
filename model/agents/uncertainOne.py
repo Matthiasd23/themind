@@ -1,5 +1,6 @@
-import numpy.random as npr
 import math
+
+import numpy.random as npr
 
 from model.agents.superAgent import SuperAgent
 
@@ -22,6 +23,7 @@ class UncertainOne(SuperAgent):
 
         # adjusted_diff = self.diff/(self.diff-i)
         # adjusted_std = self.std * pow(1.01, i)
-        adjusted_std = self.std * (1 + (math.log(i + 1)/10)) # 1 +  so not negative, i+1 so it starts at base self.std(0.1), /10 for reasonable expansion std
+        adjusted_std = self.std * (1 + (math.log(
+            i + 1) / 10))  # 1 +  so not negative, i+1 so it starts at base self.std(0.1), /10 for reasonable expansion std
         self.planned_interval = abs(npr.normal(self.diff * self.P, self.diff * adjusted_std))
         return (self.planned_interval * self.counting_speed - i) * self.ninja_speed

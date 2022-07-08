@@ -125,7 +125,7 @@ class Round(Model):
         for player in self.g.players:
             card_agent_list.append((player.cards[0], player.unique_id))
             player.remove_card()
-        card_agent_list.sort(key=lambda tup: tup[0], reverse=True) # sort list based on cards, descending order
+        card_agent_list.sort(key=lambda tup: tup[0], reverse=True)  # sort list based on cards, descending order
         print("NINJA STAR PLAYED: " + str(card_agent_list))
         i = 0
         for item in card_agent_list:
@@ -141,5 +141,6 @@ class Round(Model):
         for player in self.g.players:
             print("Cards agent " + str(player.unique_id) + player.type + ": " + str(player.cards))
         print("---------------------------\n"
-              + "Card played: " + str(self.pile) + " by agent " + str(playing_agent.unique_id) + " | interval " + str(time)
+              + "Card played: " + str(self.pile) + " by agent " + str(playing_agent.unique_id) + " | interval " + str(
+            time)
               + "\n---------------------------")

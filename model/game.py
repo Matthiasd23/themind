@@ -7,6 +7,8 @@ from model.agents.basicAgent import BasicAgent
 from model.agents.copyCat import CopyCat
 from model.agents.statistician import Statistician
 from model.agents.uncertainOne import UncertainOne
+
+
 # from model.agents.mathematician import Mathematician
 
 
